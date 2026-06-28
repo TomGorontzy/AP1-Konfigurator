@@ -1,7 +1,7 @@
 
 # AP1-Konfigurator
 
-Aktueller Stand: **v1.0.14** · Letzte Aktualisierung: **28. Juni 2026**
+Aktueller Stand: **v1.0.15** · Letzte Aktualisierung: **28. Juni 2026**
 
 Der `AP1-Konfigurator` automatisiert die Einrichtung von Prüfungsrechnern für die Abschlussprüfung Teil 1 (AP1). Das PowerShell-Skript richtet Office, Explorer, Schnellzugriff, Proxy-Einstellungen, Kandidatenordner und die Nuera-Dateien in einer reproduzierbaren Reihenfolge ein.
 
@@ -80,15 +80,15 @@ AP1-Konfigurator/
 - Wird Word oder Excel per COM nicht verfügbar, wechselt das Skript automatisch in den Registry-Fallback.
 - Für einen stillen Proxy-Lauf ohne Rückfrage sollte `-Quiet` mitgegeben werden.
 - Die Laufzeit hängt stark davon ab, ob Office erstmals gestartet werden muss.
-- Releases sollen grundsätzlich über die **EXE-Variante** erfolgen (`AP1-Konfigurator-Portable`).
-- Die EXE entpackt bzw. synchronisiert ihre eingebetteten Laufzeitdateien beim Start nach `%LOCALAPPDATA%\AP1-Konfigurator-Portable\vX.Y.Z` und pflegt zusätzlich `%LOCALAPPDATA%\AP1-Konfigurator-Portable\current` als aktuelle Arbeitskopie.
-- Ältere `%LOCALAPPDATA%\AP1-Konfigurator-Portable\v*`-Ordner werden beim Start automatisch bereinigt, damit kein veralteter Versionsballast liegen bleibt.
+- Releases sollen grundsätzlich über die **EXE-Variante** erfolgen (`AP1-Konfigurator`).
+- Die EXE entpackt bzw. synchronisiert ihre eingebetteten Laufzeitdateien beim Start nach `%LOCALAPPDATA%\AP1-Konfigurator\vX.Y.Z` und pflegt zusätzlich `%LOCALAPPDATA%\AP1-Konfigurator\current` als aktuelle Arbeitskopie.
+- Ältere `%LOCALAPPDATA%\AP1-Konfigurator\v*`-Ordner werden beim Start automatisch bereinigt, damit kein veralteter Versionsballast liegen bleibt.
 
 ## EXE-Release-Struktur
 
-Das Portable-Release ist bewusst schlank gehalten und enthält nur:
+Das EXE-Release ist bewusst schlank gehalten und enthält nur:
 
-- `AP1-Konfigurator-Portable.exe`
+- `AP1-Konfigurator.exe`
 - `data/`
 - `docs/`
 - `README.md`
@@ -103,4 +103,4 @@ Die PowerShell-Startskripte und `Skript-Module` werden nicht separat mit ausgeli
 - Checkliste: [`docs/DOKUMENTATION_CHECKLISTE.md`](./docs/DOKUMENTATION_CHECKLISTE.md)
 - Release-Prozess: [`docs/RELEASE_PROZESS.md`](./docs/RELEASE_PROZESS.md)
 - Änderungen: [`docs/CHANGELOG.md`](./docs/CHANGELOG.md)
-- Release-Hinweise: [`release/RELEASE_NOTES_v1.0.14.md`](./release/RELEASE_NOTES_v1.0.14.md)
+- Release-Hinweise: [`release/RELEASE_NOTES_v1.0.15.md`](./release/RELEASE_NOTES_v1.0.15.md)

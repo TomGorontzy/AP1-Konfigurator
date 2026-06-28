@@ -49,7 +49,7 @@ PRIMARY_BLUE_HOVER = '#0a58ca'
 PRIMARY_BLUE_ACTIVE = '#084298'
 
 
-def show_error(message: str, title: str = 'AP1-Konfigurator-Portable') -> None:
+def show_error(message: str, title: str = 'AP1-Konfigurator') -> None:
     try:
         ctypes.windll.user32.MessageBoxW(None, message, title, MB_OK | MB_ICONERROR)
     except Exception:

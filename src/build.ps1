@@ -10,7 +10,7 @@ if ($PSVersionTable.PSVersion.Major -ge 6) {
 }
 
 if ($Help) {
-    Write-Host 'AP1-Konfigurator-Portable Build' -ForegroundColor Cyan
+    Write-Host 'AP1-Konfigurator Build' -ForegroundColor Cyan
     Write-Host '  .\src\build.ps1'
     Write-Host '  .\src\build.ps1 -NoVersionBump'
     Write-Host '  .\src\build.ps1 -SkipZip'
@@ -52,7 +52,7 @@ if ($LASTEXITCODE -ne 0) { throw 'Markdown-Normalisierung fehlgeschlagen.' }
 $distRoot = Join-Path $ProjectRoot 'dist'
 $buildRoot = Join-Path $ProjectRoot 'build'
 $releaseRoot = Join-Path $ProjectRoot 'release'
-$exeName = 'AP1-Konfigurator-Portable'
+$exeName = 'AP1-Konfigurator'
 $iconPath = Join-Path $ProjectRoot 'src\app_icon.ico'
 $versionTag = "v$newVersion"
 

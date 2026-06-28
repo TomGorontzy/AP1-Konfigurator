@@ -50,7 +50,7 @@ if (-not $Version) {
     }
 }
 
-$asset = Join-Path $ProjectRoot ("release\AP1-Konfigurator-Portable-" + $Version + '.zip')
+$asset = Join-Path $ProjectRoot ("release\AP1-Konfigurator-" + $Version + '.zip')
 $notes = Join-Path $ProjectRoot ("release\RELEASE_NOTES_" + $Version + '.md')
 if (-not (Test-Path $asset)) { throw "Release-Asset fehlt: $asset" }
 if (-not (Test-Path $notes)) { throw "Release Notes fehlen: $notes" }

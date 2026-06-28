@@ -154,9 +154,9 @@ Unterstützte Parameter:
 
 ## Release- und GitHub-Hinweise
 
-- Aktueller veröffentlichter Stand im Repository: `v1.0.14`
+- Aktueller veröffentlichter Stand im Repository: `v1.0.15`
 - Changelog: `docs/CHANGELOG.md`
-- Release-Notizen: `release/RELEASE_NOTES_v1.0.14.md`
-- Der GitHub-Release wird über die EXE-Variante `AP1-Konfigurator-Portable-vX.Y.Z.zip` veröffentlicht.
-- Das EXE-Release enthält nur `AP1-Konfigurator-Portable.exe`, `data/`, `docs/` und `README.md`.
+- Release-Notizen: `release/RELEASE_NOTES_v1.0.15.md`
+- Der GitHub-Release wird über die EXE-Variante `AP1-Konfigurator-vX.Y.Z.zip` veröffentlicht.
+- Das EXE-Release enthält nur `AP1-Konfigurator.exe`, `data/`, `docs/` und `README.md`.
 - Für konsistente Releases sollten Anwender-, Technik-, Kurz- und Release-Prozess-Dokumentation vor dem Tagging aktualisiert werden.
