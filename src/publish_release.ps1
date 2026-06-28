@@ -6,6 +6,7 @@ param(
 )
 
 $ErrorActionPreference = 'Stop'
+$ProjectRoot = Resolve-Path (Join-Path $PSScriptRoot '..')
 
 function Invoke-GhCommand {
     param(
@@ -41,7 +42,7 @@ if ($BuildFirst) {
 }
 
 if (-not $Version) {
-    $buildInfo = Get-Content (Join-Path $PSScriptRoot 'src\build_info.py') -Raw -Encoding UTF8
+    $buildInfo = Get-Content (Join-Path $ProjectRoot 'src\build_info.py') -Raw -Encoding UTF8
     if ($buildInfo -match "'version':\s*'([0-9]+\.[0-9]+\.[0-9]+)'") {
         $Version = "v$($Matches[1])"
     } else {
@@ -49,8 +50,8 @@ if (-not $Version) {
     }
 }
 
-$asset = Join-Path $PSScriptRoot ("release\AP1-Konfigurator-Portable-" + $Version + '.zip')
-$notes = Join-Path $PSScriptRoot ("RELEASE_NOTES_" + $Version + '.md')
+$asset = Join-Path $ProjectRoot ("release\AP1-Konfigurator-Portable-" + $Version + '.zip')
+$notes = Join-Path $ProjectRoot ("release\RELEASE_NOTES_" + $Version + '.md')
 if (-not (Test-Path $asset)) { throw "Release-Asset fehlt: $asset" }
 if (-not (Test-Path $notes)) { throw "Release Notes fehlen: $notes" }
 

@@ -22,7 +22,12 @@ $dataRootCandidate = Join-Path $script:BaseRoot 'data'
 if (Test-Path $dataRootCandidate) {
   $script:DataRoot = $dataRootCandidate
 } else {
-  $script:DataRoot = $script:BaseRoot
+  $parentDataRootCandidate = Join-Path (Split-Path -Path $script:BaseRoot -Parent) 'data'
+  if (Test-Path $parentDataRootCandidate) {
+    $script:DataRoot = $parentDataRootCandidate
+  } else {
+    $script:DataRoot = $script:BaseRoot
+  }
 }
 
 ### --- Office-Version 16.0 für alle 2026 laufenden Versionen ---

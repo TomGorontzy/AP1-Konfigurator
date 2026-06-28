@@ -27,26 +27,26 @@ Zentrale Aufgaben:
 
 ## Repository-Struktur
 
-- `build.ps1` – erstellt die Portable-EXE per PyInstaller und paketiert das Release-ZIP
-- `setup.ps1` – richtet die Python-Buildumgebung für die EXE-Erzeugung ein
-- `publish_release.ps1` – veröffentlicht die EXE-Variante auf GitHub
-- `AP1-Konfigurator.ps1` – Haupteinstieg und Orchestrierung
-- `AP1-Konfigurator.bat` – interaktiver Starter mit Proxy-Abfrage
+- `src/build.ps1` – erstellt die Portable-EXE per PyInstaller und paketiert das Release-ZIP
+- `src/setup.ps1` – richtet die Python-Buildumgebung für die EXE-Erzeugung ein
+- `src/publish_release.ps1` – veröffentlicht die EXE-Variante auf GitHub
+- `src/AP1-Konfigurator.ps1` – Haupteinstieg und Orchestrierung
+- `src/AP1-Konfigurator.bat` – interaktiver Starter mit Proxy-Abfrage
 - `src/main.py` – EXE-Launcher, der eingebettete Laufzeitdateien nach `%LOCALAPPDATA%` synchronisiert, einen `current`-Arbeitsordner pflegt und von dort startet
 - `src/post_build.py` – erstellt den versionierten Portable-Ordner und das ZIP-Artefakt
 - `.github/workflows/release.yml` – GitHub-Workflow für tagbasierte EXE-Releases
-- `Skript-Module/AP1-Logging.psm1` – Logging- und Konsolenausgabe
-- `Skript-Module/AP1-Office.psm1` – First-Run-Erkennung und Office-Initialisierung
-- `Skript-Module/AP1-Registry.psm1` – Registry-Helfer, COM-Bereinigung, Prüfungen
-- `Skript-Module/AP1-Folders.psm1` – Kandidatenordner und Desktop-Bereitstellung
-- `Skript-Module/AP1-Templates.psm1` – Vorlagen und Schnellzugriff
-- `Skript-Module/AP1-System.psm1` – Proxy, Taskleiste, Prozesse, Archiv-Entpackung
-- `Skript-Module/AP1-Nuera.psm1` – Download und Bereitstellung der Nuera-Dateien
-- `Skript-Module/AP1-QuickAccess.psm1` – Schnellzugriff und Desktop-Shortcuts
-- `1. Anpassen/` – anwendungsnahe Eingabedaten, insbesondere `AP1-TN.xlsx`
-- `2. Bei Bedarf anpassen/` – Vorlagen, Office-UI-Dateien, temporäre Ordnerstruktur
-- `3. Nuera-Dateien/` – Download- und Entpackbereich für Nuera-Dateien
-- `4. Logs/` – Transcript-Ausgaben
+- `src/Skript-Module/AP1-Logging.psm1` – Logging- und Konsolenausgabe
+- `src/Skript-Module/AP1-Office.psm1` – First-Run-Erkennung und Office-Initialisierung
+- `src/Skript-Module/AP1-Registry.psm1` – Registry-Helfer, COM-Bereinigung, Prüfungen
+- `src/Skript-Module/AP1-Folders.psm1` – Kandidatenordner und Desktop-Bereitstellung
+- `src/Skript-Module/AP1-Templates.psm1` – Vorlagen und Schnellzugriff
+- `src/Skript-Module/AP1-System.psm1` – Proxy, Taskleiste, Prozesse, Archiv-Entpackung
+- `src/Skript-Module/AP1-Nuera.psm1` – Download und Bereitstellung der Nuera-Dateien
+- `src/Skript-Module/AP1-QuickAccess.psm1` – Schnellzugriff und Desktop-Shortcuts
+- `data/1. Anpassen/` – anwendungsnahe Eingabedaten, insbesondere `AP1-TN.xlsx`
+- `data/2. Bei Bedarf anpassen/` – Vorlagen, Office-UI-Dateien, temporäre Ordnerstruktur
+- `data/3. Nuera-Dateien/` – Download- und Entpackbereich für Nuera-Dateien
+- `data/4. Logs/` – Transcript-Ausgaben
 - `docs/` – kanonische Projektdokumentation
 - `release/`, `dist/`, `build/` – historische bzw. erzeugte Release-Artefakte
 
@@ -54,7 +54,7 @@ Zentrale Aufgaben:
 
 Einstiegspunkt:
 
-- `AP1-Konfigurator.ps1`
+- `src/AP1-Konfigurator.ps1`
 
 Unterstützte Parameter:
 
@@ -63,7 +63,7 @@ Unterstützte Parameter:
 | `-Proxy` | `On`, `Off`, `Skip` | `Skip` | Aktiviert, deaktiviert oder überspringt Proxy-Änderungen |
 | `-ProxyServer` | `String` | `192.168.0.1:8080` | Proxy-Server für `-Proxy On` |
 | `-ProxyBypass` | `String` | Office-/Microsoft-Ausnahmeliste | Proxy-Ausnahmen |
-| `-ExcelListPath` | `String` | automatisch `1. Anpassen\AP1-TN.xlsx` | Pfad zur Teilnehmerliste |
+| `-ExcelListPath` | `String` | automatisch `data/1. Anpassen\AP1-TN.xlsx` | Pfad zur Teilnehmerliste |
 | `-CsvFallbackPath` | `String` | leer | CSV-Fallback, wenn COM/Excel nicht verwendbar ist |
 | `-MaxRows` | `Int` | `500` | Obergrenze der zu lesenden Datensätze |
 | `-Quiet` | `Switch` | aus | Unterdrückt die interaktive Proxy-Bestätigung |
@@ -89,10 +89,10 @@ Unterstützte Parameter:
 2. Die EXE synchronisiert `data/` und `docs/` aus dem Release-Verzeichnis in denselben lokalen Versionsordner
 3. Die EXE aktualisiert zusätzlich `%LOCALAPPDATA%\AP1-Konfigurator-Portable\current` als aktuelle Arbeitskopie
 4. Die EXE entfernt ältere `%LOCALAPPDATA%\AP1-Konfigurator-Portable\v*`-Ordner automatisch
-5. Modulimport aus `Skript-Module`
+5. Modulimport aus `src/Skript-Module` (im Release-Laufzeitverzeichnis dann `Skript-Module`)
 6. Setzen des Word-Templatepfads auf den Desktop des aktuellen Benutzers
 7. Anheften des Desktops an den Schnellzugriff
-8. Start des Transcript-Loggings in `4. Logs`
+8. Start des Transcript-Loggings in `data/4. Logs`
 9. Prüfung der COM-Verfügbarkeit von Word und Excel
 10. Bereitstellung der aktuellen Nuera-Dateien
 11. Office-/Explorer-Konfiguration via Registry und optional COM
@@ -110,7 +110,7 @@ Unterstützte Parameter:
 
 ### Excel-/CSV-Fallback
 
-- Primärquelle ist `1. Anpassen\AP1-TN.xlsx`.
+- Primärquelle ist `data/1. Anpassen\AP1-TN.xlsx`.
 - Wenn Excel/COM nicht verfügbar ist, kann mit `-CsvFallbackPath` auf CSV ausgewichen werden.
 - Erwartet werden verwertbare Werte in den ersten beiden Spalten bzw. CSV-Feldern `Account` und `Kandidat`.
 
@@ -123,7 +123,7 @@ Unterstützte Parameter:
 ### Desktop-Bereitstellung
 
 - Kandidaten- und Nuera-Ordner werden gezielt auf dem Desktop des aktuellen Benutzers abgelegt.
-- Temporäre Ordner unter `2. Bei Bedarf anpassen\Ordner` werden im Anschluss aufgeräumt.
+- Temporäre Ordner unter `data/2. Bei Bedarf anpassen\Ordner` werden im Anschluss aufgeräumt.
 
 ### EXE-Laufzeitverzeichnis
 
@@ -137,14 +137,14 @@ Unterstützte Parameter:
 
 ## Logging
 
-- Transcript-Dateien liegen unter `4. Logs`.
+- Transcript-Dateien liegen unter `data/4. Logs`.
 - Namensschema: `AP1_Prep_yyyyMMdd_HHmmss.log`
 - Es bleiben maximal fünf Logs erhalten.
 - `Write-SafeOutput` wird für sichtbare Statusmeldungen verwendet.
 
 ## Betriebs- und Wartungshinweise
 
-- Vorlagen und Office-UI-Dateien liegen unter `2. Bei Bedarf anpassen/`.
+- Vorlagen und Office-UI-Dateien liegen unter `data/2. Bei Bedarf anpassen/`.
 - Office-abhängige Abläufe sollten idealerweise auf einem System mit funktionierender Word-/Excel-Installation getestet werden.
 - Bei First-Run-Dialogen kann ein manueller Office-Start erforderlich sein.
 - Historische Build- und Release-Artefakte im Repository sind nicht die kanonische Quellstruktur.
@@ -153,8 +153,8 @@ Unterstützte Parameter:
 ## Release- und GitHub-Hinweise
 
 - Aktueller veröffentlichter Stand im Repository: `v1.0.12`
-- Changelog: `CHANGELOG.md`
-- Release-Notizen: `RELEASE_NOTES_v1.0.12.md`
+- Changelog: `docs/CHANGELOG.md`
+- Release-Notizen: `release/RELEASE_NOTES_v1.0.12.md`
 - Der GitHub-Release wird über die EXE-Variante `AP1-Konfigurator-Portable-vX.Y.Z.zip` veröffentlicht.
 - Das EXE-Release enthält nur `AP1-Konfigurator-Portable.exe`, `data/`, `docs/` und `README.md`.
 - Für konsistente Releases sollten Anwender-, Technik-, Kurz- und Release-Prozess-Dokumentation vor dem Tagging aktualisiert werden.

@@ -13,20 +13,20 @@ Der `AP1-Konfigurator` automatisiert die Einrichtung von Prüfungsrechnern für 
 - erzeugt Kandidatenordner aus `AP1-TN.xlsx` oder optional aus einer CSV-Datei
 - lädt die neuesten Nuera-Dateien und kopiert sie auf den Desktop
 - setzt Taskleisten- und optionale Proxy-Einstellungen
-- schreibt Laufzeitprotokolle nach `4. Logs`
+- schreibt Laufzeitprotokolle nach `data/4. Logs`
 
 ## Schnellstart
 
 Interaktiv per Batch:
 
 ```powershell
-.\AP1-Konfigurator.bat
+.\src\AP1-Konfigurator.bat
 ```
 
 Direkt per PowerShell:
 
 ```powershell
-.\AP1-Konfigurator.ps1
+.\src\AP1-Konfigurator.ps1
 ```
 
 ## Verfügbare Parameter
@@ -36,7 +36,7 @@ Direkt per PowerShell:
 | `-Proxy` | `On`, `Off`, `Skip` | `Skip` | Steuert die Proxy-Konfiguration |
 | `-ProxyServer` | `String` | `192.168.0.1:8080` | Proxy-Server bei `-Proxy On` |
 | `-ProxyBypass` | `String` | Office-/Microsoft-Bypassliste | Ausnahmeliste für den Proxy |
-| `-ExcelListPath` | `String` | automatisch `1. Anpassen\AP1-TN.xlsx` | Teilnehmerliste für die Ordnererzeugung |
+| `-ExcelListPath` | `String` | automatisch `data/1. Anpassen\AP1-TN.xlsx` | Teilnehmerliste für die Ordnererzeugung |
 | `-CsvFallbackPath` | `String` | leer | CSV-Fallback, wenn Excel/COM nicht verfügbar ist |
 | `-MaxRows` | `Int` | `500` | Obergrenze für gelesene Teilnehmerzeilen |
 | `-Quiet` | `Switch` | aus | Unterdrückt die Proxy-Rückfrage |
@@ -45,22 +45,29 @@ Direkt per PowerShell:
 ## Typische Aufrufe
 
 ```powershell
-.\AP1-Konfigurator.ps1 -Proxy Off
-.\AP1-Konfigurator.ps1 -Proxy On -Quiet
-.\AP1-Konfigurator.ps1 -RegistryOnly -CsvFallbackPath .\1. Anpassen\AP1-TN.csv
+.\src\AP1-Konfigurator.ps1 -Proxy Off
+.\src\AP1-Konfigurator.ps1 -Proxy On -Quiet
+.\src\AP1-Konfigurator.ps1 -RegistryOnly -CsvFallbackPath .\data\1. Anpassen\AP1-TN.csv
 ```
 
 ## Ordnerstruktur
 
 ```text
 AP1-Konfigurator/
-├── AP1-Konfigurator.ps1
-├── AP1-Konfigurator.bat
-├── Skript-Module/
-├── 1. Anpassen/
-├── 2. Bei Bedarf anpassen/
-├── 3. Nuera-Dateien/
-├── 4. Logs/
+├── src/
+│   ├── AP1-Konfigurator.ps1
+│   ├── AP1-Konfigurator.bat
+│   ├── Proxy-Deaktivieren.bat
+│   ├── setup.ps1
+│   ├── build.ps1
+│   ├── publish_release.ps1
+│   └── requirements.txt
+│   └── Skript-Module/
+├── data/
+│   ├── 1. Anpassen/
+│   ├── 2. Bei Bedarf anpassen/
+│   ├── 3. Nuera-Dateien/
+│   └── 4. Logs/
 ├── docs/
 ├── dist/
 ├── release/
@@ -95,5 +102,5 @@ Die PowerShell-Startskripte und `Skript-Module` werden nicht separat mit ausgeli
 - Kurzinfo: [`docs/KURZDOKUMENTATION.txt`](./docs/KURZDOKUMENTATION.txt)
 - Checkliste: [`docs/DOKUMENTATION_CHECKLISTE.md`](./docs/DOKUMENTATION_CHECKLISTE.md)
 - Release-Prozess: [`docs/RELEASE_PROZESS.md`](./docs/RELEASE_PROZESS.md)
-- Änderungen: [`CHANGELOG.md`](./CHANGELOG.md)
-- Release-Hinweise: [`RELEASE_NOTES_v1.0.12.md`](./RELEASE_NOTES_v1.0.12.md)
+- Änderungen: [`docs/CHANGELOG.md`](./docs/CHANGELOG.md)
+- Release-Hinweise: [`release/RELEASE_NOTES_v1.0.12.md`](./release/RELEASE_NOTES_v1.0.12.md)

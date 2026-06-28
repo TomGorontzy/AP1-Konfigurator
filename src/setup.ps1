@@ -5,8 +5,9 @@ param(
 )
 
 $ErrorActionPreference = 'Stop'
-$repo = Split-Path $PSScriptRoot -Leaf
-$venvPath = Join-Path $PSScriptRoot $VenvName
+$ProjectRoot = Resolve-Path (Join-Path $PSScriptRoot '..')
+$repo = Split-Path $ProjectRoot -Leaf
+$venvPath = Join-Path $ProjectRoot $VenvName
 
 if ($Force -and (Test-Path $venvPath)) {
     Write-Host "[$repo] Entferne bestehende $VenvName ..."

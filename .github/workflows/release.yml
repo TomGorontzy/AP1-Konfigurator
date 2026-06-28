@@ -21,11 +21,11 @@ jobs:
 
       - name: Setup venv
         shell: pwsh
-        run: ./setup.ps1
+        run: ./src/setup.ps1
 
       - name: Build portable EXE
         shell: pwsh
-        run: ./build.ps1 -NoVersionBump
+        run: ./src/build.ps1 -NoVersionBump
 
       - name: Publish GitHub Release Asset
         uses: softprops/action-gh-release@v2

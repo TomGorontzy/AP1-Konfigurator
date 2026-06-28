@@ -27,12 +27,12 @@ Beispiel:
    - `docs/KURZDOKUMENTATION.txt`
    - `docs/DOKUMENTATION_CHECKLISTE.md`
 2. Release-Hinweise prüfen oder anlegen:
-   - `RELEASE_NOTES_vX.Y.Z.md`
+   - `release/RELEASE_NOTES_vX.Y.Z.md`
 3. Python-Buildumgebung einrichten:
-   - `./setup.ps1`
+   - `./src/setup.ps1`
 4. EXE-Build ausführen:
-   - `./build.ps1`
-   - oder ohne Versionssprung: `./build.ps1 -NoVersionBump`
+   - `./src/build.ps1`
+   - oder ohne Versionssprung: `./src/build.ps1 -NoVersionBump`
 5. Artefakte validieren:
    - `dist/AP1-Konfigurator-Portable-vX.Y.Z/AP1-Konfigurator-Portable.exe`
    - `release/AP1-Konfigurator-Portable-vX.Y.Z/`
@@ -40,7 +40,7 @@ Beispiel:
    - Im Release-Ordner befinden sich nur `AP1-Konfigurator-Portable.exe`, `data/`, `docs/` und `README.md`
    - Die ZIP-Datei ist flach und enthält keinen zusätzlichen Oberordner
 6. Veröffentlichung ausführen:
-   - `./publish_release.ps1 -Version vX.Y.Z`
+   - `./src/publish_release.ps1 -Version vX.Y.Z`
 7. GitHub prüfen:
    - Tag sichtbar
    - Release vorhanden
@@ -51,19 +51,19 @@ Beispiel:
 ### 1) Buildumgebung vorbereiten
 
 ```powershell
-./setup.ps1
+./src/setup.ps1
 ```
 
 ### 2) EXE bauen
 
 ```powershell
-./build.ps1
+./src/build.ps1
 ```
 
 ### 3) Release veröffentlichen
 
 ```powershell
-./publish_release.ps1 -Version vX.Y.Z
+./src/publish_release.ps1 -Version vX.Y.Z
 ```
 
 ## GitHub Actions

@@ -12,11 +12,11 @@ DATE_TEXT = '28. Juni 2026'
 REPLACEMENTS: dict[Path, list[tuple[str, str]]] = {
     ROOT / 'README.md': [
         (r"Aktueller Stand: \*\*v\d+\.\d+\.\d+\*\* · Letzte Aktualisierung: \*\*[^*]+\*\*", f"Aktueller Stand: **{VERSION}** · Letzte Aktualisierung: **{DATE_TEXT}**"),
-        (r"RELEASE_NOTES_v\d+\.\d+\.\d+\.md", f"RELEASE_NOTES_{VERSION}.md"),
+        (r"release/RELEASE_NOTES_v\d+\.\d+\.\d+\.md", f"release/RELEASE_NOTES_{VERSION}.md"),
     ],
     ROOT / 'docs' / 'DOKUMENTATION_TECHNIK.md': [
         (r"Aktueller veröffentlichter Stand im Repository: `v\d+\.\d+\.\d+`", f"Aktueller veröffentlichter Stand im Repository: `{VERSION}`"),
-        (r"RELEASE_NOTES_v\d+\.\d+\.\d+\.md", f"RELEASE_NOTES_{VERSION}.md"),
+        (r"release/RELEASE_NOTES_v\d+\.\d+\.\d+\.md", f"release/RELEASE_NOTES_{VERSION}.md"),
     ],
 }
 

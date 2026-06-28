@@ -6,18 +6,18 @@ Er übernimmt dabei Office-Einstellungen, Vorlagen, Kandidatenordner, Nuera-Date
 sowie optional Proxy- und Taskleisten-Einstellungen.
 
 Vorbereitung
-- Teilnehmerliste `1. Anpassen\AP1-TN.xlsx` prüfen
+- Teilnehmerliste `data/1. Anpassen\AP1-TN.xlsx` prüfen
 - Word und Excel schließen
 - Internetverbindung für Nuera-Download sicherstellen
 
 Start
-- Empfohlen: `AP1-Konfigurator.bat`
-- Alternativ: `AP1-Konfigurator.ps1`
+- Empfohlen: `src/AP1-Konfigurator.bat`
+- Alternativ: `src/AP1-Konfigurator.ps1`
 
 Ergebnis
 - Nuera-Ordner liegt auf dem Desktop
 - Kandidatenordner liegt auf dem Desktop
-- Logdatei wurde unter `4. Logs` erstellt
+- Logdatei wurde unter `data/4. Logs` erstellt
 
 Wichtige Optionen
 - `-Proxy On|Off|Skip`

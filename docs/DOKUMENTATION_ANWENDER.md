@@ -28,12 +28,12 @@ Dabei werden insbesondere vorbereitet:
 
 - Windows-PC mit Microsoft Office (Word und Excel)
 - Schreibrechte im Benutzerprofil
-- vorhandene Teilnehmerliste unter `1. Anpassen\AP1-TN.xlsx`
+- vorhandene Teilnehmerliste unter `data/1. Anpassen\AP1-TN.xlsx`
 - optional Internetzugang für den Abruf der Nuera-Dateien
 
 ## Vorbereitung
 
-1. Prüfen Sie, ob `AP1-TN.xlsx` im Ordner `1. Anpassen` vorhanden und aktuell ist.
+1. Prüfen Sie, ob `AP1-TN.xlsx` im Ordner `data/1. Anpassen` vorhanden und aktuell ist.
 2. Schließen Sie Word und Excel vor dem Start.
 3. Speichern Sie offene Arbeiten anderer Programme.
 4. Entscheiden Sie, ob ein Proxy gesetzt werden soll.
@@ -43,15 +43,15 @@ Dabei werden insbesondere vorbereitet:
 
 Empfohlener Start:
 
-1. `AP1-Konfigurator.bat` per Doppelklick öffnen.
+1. `src/AP1-Konfigurator.bat` per Doppelklick öffnen.
 2. Proxy-Frage beantworten.
 3. Warten, bis das Skript die Einrichtung abgeschlossen hat.
 
 Alternativ per PowerShell:
 
-- `./AP1-Konfigurator.ps1`
-- `./AP1-Konfigurator.ps1 -Proxy Off`
-- `./AP1-Konfigurator.ps1 -RegistryOnly -CsvFallbackPath .\1. Anpassen\AP1-TN.csv`
+- `./src/AP1-Konfigurator.ps1`
+- `./src/AP1-Konfigurator.ps1 -Proxy Off`
+- `./src/AP1-Konfigurator.ps1 -RegistryOnly -CsvFallbackPath .\data\1. Anpassen\AP1-TN.csv`
 
 ## Ablauf während der Ausführung
 
@@ -64,7 +64,7 @@ Das Skript führt typischerweise folgende Schritte aus:
 5. Vorlagen `Normal.dotm` und `Mappe.xltx` kopieren
 6. Kandidatenordner aus der Teilnehmerliste erzeugen
 7. Taskleisten- und optional Proxy-Einstellungen anwenden
-8. Logdatei in `4. Logs` schreiben
+8. Logdatei in `data/4. Logs` schreiben
 
 Hinweise während der Ausführung:
 
@@ -80,13 +80,13 @@ Nach erfolgreicher Ausführung sollten Sie insbesondere Folgendes prüfen:
 - Kandidatenordner wurde auf dem Desktop angelegt
 - Word/Excel-Speicherpfade zeigen auf den Desktop
 - Schnellzugriff in Word/Excel wurde übernommen
-- im Ordner `4. Logs` wurde eine aktuelle Logdatei angelegt
+- im Ordner `data/4. Logs` wurde eine aktuelle Logdatei angelegt
 
 ## Häufige Probleme
 
 ### Excel-Datei fehlt
 
-- Prüfen, ob `1. Anpassen\AP1-TN.xlsx` vorhanden ist.
+- Prüfen, ob `data/1. Anpassen\AP1-TN.xlsx` vorhanden ist.
 - Falls die Datei an anderem Ort liegt, `-ExcelListPath` verwenden.
 
 ### Word oder Excel startet nicht automatisch
@@ -114,6 +114,6 @@ Nach erfolgreicher Ausführung sollten Sie insbesondere Folgendes prüfen:
 Bei Rückfragen bitte immer mitgeben:
 
 - Datum/Uhrzeit der Ausführung
-- Name der erzeugten Logdatei aus `4. Logs`
+- Name der erzeugten Logdatei aus `data/4. Logs`
 - kurze Beschreibung des letzten sichtbaren Schritts
 - wenn möglich Screenshot einer Fehlermeldung

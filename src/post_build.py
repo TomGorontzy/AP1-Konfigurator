@@ -19,10 +19,8 @@ RELEASE_DIR = RELEASE_ROOT / f'{ARTIFACT_NAME}-{VERSION}'
 EXE_SOURCE = DIST_ROOT / f'{ARTIFACT_NAME}.exe'
 
 COPY_MAP = {
-    ROOT / 'README_PORTABLE.md': 'README.md',
-    ROOT / '1. Anpassen': 'data/1. Anpassen',
-    ROOT / '2. Bei Bedarf anpassen': 'data/2. Bei Bedarf anpassen',
-    ROOT / '3. Nuera-Dateien': 'data/3. Nuera-Dateien',
+    ROOT / 'README.md': 'README.md',
+    ROOT / 'data': 'data',
     ROOT / 'docs': 'docs',
 }
 

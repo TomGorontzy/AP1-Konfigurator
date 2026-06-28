@@ -5,10 +5,10 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 TARGETS = [
     ROOT / 'README.md',
-    ROOT / 'DOCUMENTATION.md',
-    ROOT / 'CHANGELOG.md',
-    ROOT / 'RELEASE_NOTES_v1.0.11.md',
+    ROOT / 'docs' / 'CHANGELOG.md',
 ]
+
+TARGETS.extend(sorted((ROOT / 'release').glob('RELEASE_NOTES_v*.md')))
 
 for doc in TARGETS:
     if not doc.exists():
