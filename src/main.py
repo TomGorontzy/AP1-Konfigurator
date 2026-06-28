@@ -52,11 +52,19 @@ def resolve_bundle_dir() -> Path:
     return Path(__file__).resolve().parents[1]
 
 
-def resolve_local_appdata_dir() -> Path:
+def resolve_local_appdata_root() -> Path:
     local_appdata = os.environ.get('LOCALAPPDATA')
     if not local_appdata:
         local_appdata = str(Path.home() / 'AppData' / 'Local')
-    return Path(local_appdata) / ARTIFACT_NAME / VERSION
+    return Path(local_appdata) / ARTIFACT_NAME
+
+
+def resolve_local_appdata_dir() -> Path:
+    return resolve_local_appdata_root() / VERSION
+
+
+def resolve_current_app_dir() -> Path:
+    return resolve_local_appdata_root() / 'current'
 
 
 def copy_file(source: Path, target: Path) -> None:
@@ -95,6 +103,22 @@ def sync_release_content(runtime_dir: Path, app_dir: Path) -> None:
             sync_directory(source, app_dir / dir_name)
 
 
+def reset_dir(path: Path) -> None:
+    if path.exists():
+        shutil.rmtree(path)
+    path.mkdir(parents=True, exist_ok=True)
+
+
+def prepare_current_alias(source_dir: Path) -> Path:
+    current_dir = resolve_current_app_dir()
+    try:
+        reset_dir(current_dir)
+        sync_directory(source_dir, current_dir)
+        return current_dir
+    except PermissionError:
+        return source_dir
+
+
 def prepare_app_dir(runtime_dir: Path) -> Path:
     bundle_dir = resolve_bundle_dir()
     app_dir = resolve_local_appdata_dir()
@@ -102,7 +126,7 @@ def prepare_app_dir(runtime_dir: Path) -> Path:
     sync_embedded_runtime(bundle_dir, app_dir)
     sync_release_content(runtime_dir, app_dir)
     (app_dir / 'data' / '4. Logs').mkdir(parents=True, exist_ok=True)
-    return app_dir
+    return prepare_current_alias(app_dir)
 
 
 def find_launcher(runtime_dir: Path) -> Path:
