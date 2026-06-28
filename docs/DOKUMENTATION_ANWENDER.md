@@ -1,6 +1,6 @@
 # DOKUMENTATION ANWENDER
 
-Aktueller Stand: **v1.0.14** · Letzte Aktualisierung: **28. Juni 2026**
+Aktueller Stand: **v1.0.16** · Letzte Aktualisierung: **28. Juni 2026**
 
 ## Inhaltsverzeichnis
 
@@ -45,9 +45,10 @@ Dabei werden insbesondere vorbereitet:
 
 Empfohlener Start:
 
-1. `src/AP1-Konfigurator.bat` per Doppelklick öffnen.
-2. Proxy-Frage beantworten.
-3. Warten, bis das Skript die Einrichtung abgeschlossen hat.
+1. `dist/AP1-Konfigurator.exe` (oder im Release die `AP1-Konfigurator.exe`) starten.
+2. In der GUI den gewünschten Proxy-Modus (`Skip`, `On`, `Off`) auswählen.
+3. Auf **„AP1-Konfiguration starten“** klicken.
+4. Den Fortschrittsbalken im unteren Bereich beobachten, bis **„Fertig“** angezeigt wird.
 
 Alternativ per PowerShell:
 
@@ -73,6 +74,7 @@ Hinweise während der Ausführung:
 - Beim ersten Office-Start können Lizenz- oder Datenschutzhinweise erscheinen.
 - Wenn Word oder Excel nicht per COM gestartet werden können, arbeitet das Skript teilweise im Registry-Fallback weiter.
 - Die Ausführung kann je nach Office-Status und Netzwerkverbindung einige Minuten dauern.
+- Die GUI zeigt den Fortschritt laufend an; bei erfolgreichem Ende wird der Balken grün und mit `Fertig` beschriftet.
 
 ## Ergebnis prüfen
 

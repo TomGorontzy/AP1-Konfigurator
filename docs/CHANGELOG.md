@@ -1,5 +1,17 @@
 # Changelog
 
+## v1.0.16 - 2026-06-28
+
+### GUI und Laufstatus
+
+- Die EXE-GUI zeigt beim Start der AP1-Konfiguration jetzt einen sichtbaren Fortschrittsbalken.
+- Der Ablaufstatus wird laufend aktualisiert; bei erfolgreichem Abschluss wird der Balken grün und zeigt `Fertig`.
+- Bei Fehlern wird ein klarer Fehlerzustand mit roter Abschlussmarkierung ausgegeben.
+
+### Dokumentation
+
+- README sowie Anwender-/Technikdokumentation auf den aktuellen GUI- und Release-Stand synchronisiert.
+
 ## v1.0.14 - 2026-06-28
 
 ### Dokumentation und Release

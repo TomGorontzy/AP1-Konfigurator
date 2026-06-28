@@ -47,6 +47,25 @@ NUERA_CANDIDATES = (
 PRIMARY_BLUE = '#0b5ed7'
 PRIMARY_BLUE_HOVER = '#0a58ca'
 PRIMARY_BLUE_ACTIVE = '#084298'
+PROGRESS_GREEN = '#198754'
+PROGRESS_RED = '#dc3545'
+
+AP1_PROGRESS_MARKERS: tuple[tuple[str, int], ...] = (
+    ('Suche und lade neueste Nuera-Dateien', 10),
+    ('Kopiere Nuera-Ordner auf Desktop', 18),
+    ('Initialisiere Office', 28),
+    ('Setze Office/Windows-Optionen', 36),
+    ('Setze Standard-Speicherpfade auf Desktop', 44),
+    ('Uebernehme Autokorrektur-Einstellungen', 52),
+    ('Uebernehme Schnellzugriff-Symbolleisten', 60),
+    ('Kopiere Vorlagen (Normal.dotm und Mappe.xltx) mit Backup', 68),
+    ('Erzeuge Kandidaten-Ordner aus Excel (COM)', 76),
+    ('COM nicht verfuegbar - nutze CSV-Fallback', 76),
+    ('Lege Kandidaten-Ordner auf Desktop des aktuellen Nutzers', 86),
+    ('Taskbar-Einstellungen uebernehmen', 92),
+    ('Proxy konfigurieren (falls angegeben)', 96),
+    ('Fertig. Der Rechner ist fuer die AP 1 vorbereitet.', 100),
+)
 
 
 def show_error(message: str, title: str = 'AP1-Konfigurator') -> None:
@@ -352,7 +371,12 @@ class AP1ConfiguratorGUI(tk.Tk):
         self.proxy_mode = tk.StringVar(value='Skip')
         self.status_text = tk.StringVar(value='Bereit.')
         self.refresh_note = tk.StringVar(value='')
+        self.progress_text = tk.StringVar(value='0 %')
         self._nuera_update_running = False
+        self._ap1_process: subprocess.Popen | None = None
+        self._ap1_progress = tk.DoubleVar(value=0)
+        self._ap1_log_path: Path | None = None
+        self._ap1_monitor_after: str | None = None
 
         self.paths = {
             'ap1_tn': self.app_dir / 'data' / '1. Anpassen' / 'AP1-TN.xlsx',
@@ -386,6 +410,30 @@ class AP1ConfiguratorGUI(tk.Tk):
         style.configure('Header.TLabel', font=('Segoe UI', 18, 'bold'))
         style.configure('SubHeader.TLabel', font=('Segoe UI', 10))
         style.configure('Status.TLabel', font=('Segoe UI', 10))
+        style.configure(
+            'Progress.Running.Horizontal.TProgressbar',
+            troughcolor='#e9ecef',
+            background=PRIMARY_BLUE,
+            lightcolor=PRIMARY_BLUE,
+            darkcolor=PRIMARY_BLUE,
+            bordercolor='#ced4da',
+        )
+        style.configure(
+            'Progress.Done.Horizontal.TProgressbar',
+            troughcolor='#e9ecef',
+            background=PROGRESS_GREEN,
+            lightcolor=PROGRESS_GREEN,
+            darkcolor=PROGRESS_GREEN,
+            bordercolor='#ced4da',
+        )
+        style.configure(
+            'Progress.Error.Horizontal.TProgressbar',
+            troughcolor='#e9ecef',
+            background=PROGRESS_RED,
+            lightcolor=PROGRESS_RED,
+            darkcolor=PROGRESS_RED,
+            bordercolor='#ced4da',
+        )
 
     def _build_layout(self) -> None:
         container = ttk.Frame(self, padding=16)
@@ -488,6 +536,20 @@ class AP1ConfiguratorGUI(tk.Tk):
         footer = ttk.Frame(container)
         footer.pack(fill='x')
         ttk.Separator(footer).pack(fill='x', pady=(0, 6))
+
+        progress_row = ttk.Frame(footer)
+        progress_row.pack(fill='x', pady=(0, 6))
+        self.progress_bar = ttk.Progressbar(
+            progress_row,
+            orient='horizontal',
+            mode='determinate',
+            maximum=100,
+            variable=self._ap1_progress,
+            style='Progress.Running.Horizontal.TProgressbar',
+        )
+        self.progress_bar.pack(side='left', fill='x', expand=True)
+        ttk.Label(progress_row, textvariable=self.progress_text, width=14, anchor='e').pack(side='left', padx=(10, 0))
+
         ttk.Label(footer, textvariable=self.status_text, style='Status.TLabel').pack(anchor='w')
         ttk.Label(footer, textvariable=self.refresh_note, style='SubHeader.TLabel').pack(anchor='w')
 
@@ -497,6 +559,16 @@ class AP1ConfiguratorGUI(tk.Tk):
 
     def set_note(self, text: str) -> None:
         self.refresh_note.set(text)
+
+    def set_progress(self, value: float, text: str | None = None, style: str = 'Progress.Running.Horizontal.TProgressbar') -> None:
+        clamped = max(0.0, min(100.0, float(value)))
+        self._ap1_progress.set(clamped)
+        self.progress_bar.configure(style=style)
+        if text is None:
+            self.progress_text.set(f'{clamped:.0f} %')
+        else:
+            self.progress_text.set(text)
+        self.update_idletasks()
 
     def open_item(self, path: Path) -> None:
         try:
@@ -541,14 +613,79 @@ class AP1ConfiguratorGUI(tk.Tk):
         self.run_proxy_action('Off')
 
     def start_ap1(self) -> None:
+        if self._ap1_process and self._ap1_process.poll() is None:
+            messagebox.showinfo('AP1-Konfigurator', 'Die AP1-Konfiguration läuft bereits.', parent=self)
+            return
+
         try:
             launcher = find_launcher(self.app_dir)
             mode = self.proxy_mode.get() or 'Skip'
             command = build_command_with_args(launcher, ['-Proxy', mode, '-Quiet'])
-            subprocess.Popen(command, cwd=str(self.app_dir), creationflags=CREATE_NO_WINDOW)
-            self.set_status(f'AP1-Konfiguration gestartet ({mode}).')
+            self._ap1_process = subprocess.Popen(command, cwd=str(self.app_dir), creationflags=CREATE_NO_WINDOW)
+            self._ap1_log_path = None
+            self.start_button.configure(state='disabled')
+            self.set_progress(3, text='Läuft ...', style='Progress.Running.Horizontal.TProgressbar')
+            self.set_status(f'AP1-Konfiguration gestartet ({mode}) ...')
+            self._schedule_progress_monitor()
         except Exception as exc:
             messagebox.showerror('AP1-Konfigurator', str(exc), parent=self)
+
+    def _schedule_progress_monitor(self) -> None:
+        if self._ap1_monitor_after is not None:
+            self.after_cancel(self._ap1_monitor_after)
+        self._ap1_monitor_after = self.after(800, self._poll_ap1_progress)
+
+    def _find_current_log_path(self) -> Path | None:
+        if self._ap1_log_path and self._ap1_log_path.exists():
+            return self._ap1_log_path
+        latest = find_latest_log(self.paths['logs_root'])
+        if latest and latest.exists():
+            self._ap1_log_path = latest
+            return latest
+        return None
+
+    def _derive_progress_from_log(self) -> float:
+        log_path = self._find_current_log_path()
+        if not log_path:
+            return float(self._ap1_progress.get())
+
+        try:
+            content = log_path.read_text(encoding='utf-8', errors='ignore')
+        except Exception:
+            return float(self._ap1_progress.get())
+
+        derived = float(self._ap1_progress.get())
+        for marker, percent in AP1_PROGRESS_MARKERS:
+            if marker in content:
+                derived = max(derived, float(percent))
+        return derived
+
+    def _poll_ap1_progress(self) -> None:
+        self._ap1_monitor_after = None
+        proc = self._ap1_process
+        if proc is None:
+            return
+
+        derived = self._derive_progress_from_log()
+        current = float(self._ap1_progress.get())
+        if derived <= current and proc.poll() is None:
+            derived = min(95.0, current + 1.2)
+        self.set_progress(derived)
+
+        return_code = proc.poll()
+        if return_code is None:
+            self._schedule_progress_monitor()
+            return
+
+        self.start_button.configure(state='normal')
+        self.refresh_status(download_nuera=False)
+
+        if return_code == 0:
+            self.set_progress(100, text='Fertig', style='Progress.Done.Horizontal.TProgressbar')
+            self.set_status('Fertig.')
+        else:
+            self.set_progress(100, text='Fehler', style='Progress.Error.Horizontal.TProgressbar')
+            self.set_status(f'AP1-Konfiguration beendet mit Fehler (Code {return_code}).')
 
     def refresh_status_with_download(self) -> None:
         if self._nuera_update_running:

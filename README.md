@@ -8,6 +8,7 @@ Der `AP1-Konfigurator` automatisiert die Einrichtung von Prüfungsrechnern für 
 ## Was das Skript erledigt
 
 - initialisiert Word und Excel robust über COM mit Registry-Fallback
+- zeigt in der GUI einen Fortschrittsbalken mit Live-Status und Abschlusszustand
 - setzt Standard-Speicherpfade auf den Desktop des aktuellen Benutzers
 - übernimmt `Normal.dotm`, `Mappe.xltx` und Office-Schnellzugriff
 - erzeugt Kandidatenordner aus `AP1-TN.xlsx` oder optional aus einer CSV-Datei
@@ -83,6 +84,7 @@ AP1-Konfigurator/
 - Releases sollen grundsätzlich über die **EXE-Variante** erfolgen (`AP1-Konfigurator`).
 - Die EXE entpackt bzw. synchronisiert ihre eingebetteten Laufzeitdateien beim Start nach `%LOCALAPPDATA%\AP1-Konfigurator\vX.Y.Z` und pflegt zusätzlich `%LOCALAPPDATA%\AP1-Konfigurator\current` als aktuelle Arbeitskopie.
 - Ältere `%LOCALAPPDATA%\AP1-Konfigurator\v*`-Ordner werden beim Start automatisch bereinigt, damit kein veralteter Versionsballast liegen bleibt.
+- In der GUI zeigt der Fortschrittsbalken den Ablaufstatus; nach erfolgreichem Lauf wechselt er auf **grün** und zeigt **„Fertig“**.
 
 ## EXE-Release-Struktur
 

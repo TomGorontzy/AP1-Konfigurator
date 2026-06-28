@@ -1,6 +1,6 @@
 # DOKUMENTATION TECHNIK
 
-Aktueller Stand: **v1.0.14** · Letzte Aktualisierung: **28. Juni 2026**
+Aktueller Stand: **v1.0.16** · Letzte Aktualisierung: **28. Juni 2026**
 
 ## Inhaltsverzeichnis
 
@@ -29,12 +29,12 @@ Zentrale Aufgaben:
 
 ## Repository-Struktur
 
-- `src/build.ps1` – erstellt die Portable-EXE per PyInstaller und paketiert das Release-ZIP
+- `src/build.ps1` – erstellt die EXE per PyInstaller und paketiert das Release-ZIP
 - `src/setup.ps1` – richtet die Python-Buildumgebung für die EXE-Erzeugung ein
 - `src/publish_release.ps1` – veröffentlicht die EXE-Variante auf GitHub
 - `src/AP1-Konfigurator.ps1` – Haupteinstieg und Orchestrierung
-- `src/AP1-Konfigurator.bat` – interaktiver Starter mit Proxy-Abfrage
-- `src/main.py` – EXE-Launcher, der eingebettete Laufzeitdateien nach `%LOCALAPPDATA%` synchronisiert, einen `current`-Arbeitsordner pflegt und von dort startet
+- `src/AP1-Konfigurator.bat` – Starter mit Standardparametern (`-Proxy Skip -Quiet`) ohne interaktive Rückfrage
+- `src/main.py` – EXE-GUI/Launcher mit Statusübersicht, Fortschrittsbalken und überwachten Start des PowerShell-Laufs
 - `src/post_build.py` – erstellt den versionierten Portable-Ordner und das ZIP-Artefakt
 - `.github/workflows/release.yml` – GitHub-Workflow für tagbasierte EXE-Releases
 - `src/Skript-Module/AP1-Logging.psm1` – Logging- und Konsolenausgabe
@@ -87,10 +87,10 @@ Unterstützte Parameter:
 
 ## Ablauf der Ausführung
 
-1. Die EXE synchronisiert eingebettete Laufzeitdateien nach `%LOCALAPPDATA%\AP1-Konfigurator-Portable\vX.Y.Z`
+1. Die EXE synchronisiert eingebettete Laufzeitdateien nach `%LOCALAPPDATA%\AP1-Konfigurator\vX.Y.Z`
 2. Die EXE synchronisiert `data/` und `docs/` aus dem Release-Verzeichnis in denselben lokalen Versionsordner
-3. Die EXE aktualisiert zusätzlich `%LOCALAPPDATA%\AP1-Konfigurator-Portable\current` als aktuelle Arbeitskopie
-4. Die EXE entfernt ältere `%LOCALAPPDATA%\AP1-Konfigurator-Portable\v*`-Ordner automatisch
+3. Die EXE aktualisiert zusätzlich `%LOCALAPPDATA%\AP1-Konfigurator\current` als aktuelle Arbeitskopie
+4. Die EXE entfernt ältere `%LOCALAPPDATA%\AP1-Konfigurator\v*`-Ordner automatisch
 5. Modulimport aus `src/Skript-Module` (im Release-Laufzeitverzeichnis dann `Skript-Module`)
 6. Setzen des Word-Templatepfads auf den Desktop des aktuellen Benutzers
 7. Anheften des Desktops an den Schnellzugriff
@@ -130,12 +130,20 @@ Unterstützte Parameter:
 ### EXE-Laufzeitverzeichnis
 
 - Die PowerShell-Startdateien und `Skript-Module` werden nicht separat im Release abgelegt.
-- Sie sind in der EXE eingebettet und werden beim Start nach `%LOCALAPPDATA%\AP1-Konfigurator-Portable\vX.Y.Z` kopiert.
+- Sie sind in der EXE eingebettet und werden beim Start nach `%LOCALAPPDATA%\AP1-Konfigurator\vX.Y.Z` kopiert.
 - `data/` und `docs/` aus dem Release-Verzeichnis werden ebenfalls in dieses lokale Arbeitsverzeichnis synchronisiert.
-- Zusätzlich wird `%LOCALAPPDATA%\AP1-Konfigurator-Portable\current` als aktuelle Arbeitskopie gepflegt und bevorzugt gestartet.
+- Zusätzlich wird `%LOCALAPPDATA%\AP1-Konfigurator\current` als aktuelle Arbeitskopie gepflegt und bevorzugt gestartet.
 - Ältere versionierte Unterordner `v*` werden beim Start automatisch entfernt, sofern sie nicht der aktuell laufenden Version entsprechen.
-- Das veröffentlichte EXE-Release enthält daher nur `AP1-Konfigurator-Portable.exe`, `data/`, `docs/` und `README.md`.
+- Das veröffentlichte EXE-Release enthält daher nur `AP1-Konfigurator.exe`, `data/`, `docs/` und `README.md`.
 - Die erzeugte ZIP-Datei ist flach und enthält keinen Sammelordner als oberste Ebene.
+
+### GUI-Fortschrittsanzeige
+
+- Beim Klick auf `AP1-Konfiguration starten` startet die GUI den PowerShell-Prozess im Hintergrund (ohne zusätzliches Konsolenfenster).
+- Der Fortschritt wird über bekannte Log-Marker aus `data/4. Logs` abgeleitet und im GUI-Fortschrittsbalken angezeigt.
+- Abschlusszustände:
+	- Erfolg: 100 %, grün, Text `Fertig`
+	- Fehler: 100 %, rot, Text `Fehler`
 
 ## Logging
 
