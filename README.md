@@ -74,6 +74,18 @@ AP1-Konfigurator/
 - Für einen stillen Proxy-Lauf ohne Rückfrage sollte `-Quiet` mitgegeben werden.
 - Die Laufzeit hängt stark davon ab, ob Office erstmals gestartet werden muss.
 - Releases sollen grundsätzlich über die **EXE-Variante** erfolgen (`AP1-Konfigurator-Portable`).
+- Die EXE entpackt bzw. synchronisiert ihre eingebetteten Laufzeitdateien beim Start nach `%LOCALAPPDATA%\AP1-Konfigurator-Portable\vX.Y.Z` und verwendet diese Kopie für die Ausführung.
+
+## EXE-Release-Struktur
+
+Das Portable-Release ist bewusst schlank gehalten und enthält nur:
+
+- `AP1-Konfigurator-Portable.exe`
+- `data/`
+- `docs/`
+- `README.md`
+
+Die PowerShell-Startskripte und `Skript-Module` werden nicht separat mit ausgeliefert, sondern befinden sich in der EXE und werden beim Start nach `%LOCALAPPDATA%` kopiert.
 
 ## Weiterführende Doku
 

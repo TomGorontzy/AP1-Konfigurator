@@ -32,7 +32,7 @@ Zentrale Aufgaben:
 - `publish_release.ps1` – veröffentlicht die EXE-Variante auf GitHub
 - `AP1-Konfigurator.ps1` – Haupteinstieg und Orchestrierung
 - `AP1-Konfigurator.bat` – interaktiver Starter mit Proxy-Abfrage
-- `src/main.py` – minimaler EXE-Launcher, der das mitgelieferte Batch-/PowerShell-Skript startet
+- `src/main.py` – EXE-Launcher, der eingebettete Laufzeitdateien nach `%LOCALAPPDATA%` synchronisiert und von dort startet
 - `src/post_build.py` – erstellt den versionierten Portable-Ordner und das ZIP-Artefakt
 - `.github/workflows/release.yml` – GitHub-Workflow für tagbasierte EXE-Releases
 - `Skript-Module/AP1-Logging.psm1` – Logging- und Konsolenausgabe
@@ -85,16 +85,18 @@ Unterstützte Parameter:
 
 ## Ablauf der Ausführung
 
-1. Modulimport aus `Skript-Module`
-2. Setzen des Word-Templatepfads auf den Desktop des aktuellen Benutzers
-3. Anheften des Desktops an den Schnellzugriff
-4. Start des Transcript-Loggings in `4. Logs`
-5. Prüfung der COM-Verfügbarkeit von Word und Excel
-6. Bereitstellung der aktuellen Nuera-Dateien
-7. Office-/Explorer-Konfiguration via Registry und optional COM
-8. Kopieren von Vorlagen und Schnellzugriff-Dateien
-9. Erzeugung der Kandidatenordner aus Excel oder CSV
-10. Anwenden von Taskleisten- und Proxy-Einstellungen
+1. Die EXE synchronisiert eingebettete Laufzeitdateien nach `%LOCALAPPDATA%\AP1-Konfigurator-Portable\vX.Y.Z`
+2. Die EXE synchronisiert `data/` und `docs/` aus dem Release-Verzeichnis in denselben lokalen Arbeitsordner
+3. Modulimport aus `Skript-Module`
+4. Setzen des Word-Templatepfads auf den Desktop des aktuellen Benutzers
+5. Anheften des Desktops an den Schnellzugriff
+6. Start des Transcript-Loggings in `4. Logs`
+7. Prüfung der COM-Verfügbarkeit von Word und Excel
+8. Bereitstellung der aktuellen Nuera-Dateien
+9. Office-/Explorer-Konfiguration via Registry und optional COM
+10. Kopieren von Vorlagen und Schnellzugriff-Dateien
+11. Erzeugung der Kandidatenordner aus Excel oder CSV
+12. Anwenden von Taskleisten- und Proxy-Einstellungen
 
 ## Besondere Laufzeitlogik
 
@@ -121,6 +123,13 @@ Unterstützte Parameter:
 - Kandidaten- und Nuera-Ordner werden gezielt auf dem Desktop des aktuellen Benutzers abgelegt.
 - Temporäre Ordner unter `2. Bei Bedarf anpassen\Ordner` werden im Anschluss aufgeräumt.
 
+### EXE-Laufzeitverzeichnis
+
+- Die PowerShell-Startdateien und `Skript-Module` werden nicht separat im Release abgelegt.
+- Sie sind in der EXE eingebettet und werden beim Start nach `%LOCALAPPDATA%\AP1-Konfigurator-Portable\vX.Y.Z` kopiert.
+- `data/` und `docs/` aus dem Release-Verzeichnis werden ebenfalls in dieses lokale Arbeitsverzeichnis synchronisiert.
+- Das veröffentlichte EXE-Release enthält daher nur `AP1-Konfigurator-Portable.exe`, `data/`, `docs/` und `README.md`.
+
 ## Logging
 
 - Transcript-Dateien liegen unter `4. Logs`.
@@ -142,5 +151,5 @@ Unterstützte Parameter:
 - Changelog: `CHANGELOG.md`
 - Release-Notizen: `RELEASE_NOTES_v1.0.11.md`
 - Der GitHub-Release wird über die EXE-Variante `AP1-Konfigurator-Portable-vX.Y.Z.zip` veröffentlicht.
-- Das Skriptpaket ist nur ergänzend, nicht primäres Endanwender-Artefakt.
+- Das EXE-Release enthält nur `AP1-Konfigurator-Portable.exe`, `data/`, `docs/` und `README.md`.
 - Für konsistente Releases sollten Anwender-, Technik-, Kurz- und Release-Prozess-Dokumentation vor dem Tagging aktualisiert werden.

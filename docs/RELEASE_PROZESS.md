@@ -8,10 +8,6 @@ Primäres Endanwender-Artefakt:
 
 - `release/AP1-Konfigurator-Portable-vX.Y.Z.zip`
 
-Ergänzendes Artefakt:
-
-- `release/AP1-Konfigurator-vX.Y.Z.zip` (Skript-/Quellpaket, optional)
-
 ## Versionierung
 
 Die Build-Pipeline liest die Version aus:
@@ -41,6 +37,7 @@ Beispiel:
    - `dist/AP1-Konfigurator-Portable-vX.Y.Z/AP1-Konfigurator-Portable.exe`
    - `release/AP1-Konfigurator-Portable-vX.Y.Z/`
    - `release/AP1-Konfigurator-Portable-vX.Y.Z.zip`
+   - Im Release-Ordner befinden sich nur `AP1-Konfigurator-Portable.exe`, `data/`, `docs/` und `README.md`
 6. Veröffentlichung ausführen:
    - `./publish_release.ps1 -Version vX.Y.Z`
 7. GitHub prüfen:
@@ -74,6 +71,7 @@ Der Workflow `.github/workflows/release.yml` baut bei Tag-Pushes `v*` automatisc
 
 ## Hinweise
 
-- Der aktuelle EXE-Launcher ist bewusst minimal und startet das mitgelieferte Batch-/PowerShell-Skript.
+- Der aktuelle EXE-Launcher enthält die PowerShell-Startskripte und Module eingebettet.
+- Beim Start werden die eingebetteten Laufzeitdateien nach `%LOCALAPPDATA%\AP1-Konfigurator-Portable\vX.Y.Z` kopiert und von dort verwendet.
 - Die EXE dient als bevorzugte Endanwender-Startvariante.
-- Für Notfälle kann zusätzlich ein Skriptpaket veröffentlicht werden, dieses ist jedoch **nicht** das primäre Release-Format.
+- Das Release-Paket selbst bleibt schlank und enthält nur `AP1-Konfigurator-Portable.exe`, `data/`, `docs/` und `README.md`.

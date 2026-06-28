@@ -51,7 +51,26 @@ $distRoot = Join-Path $PSScriptRoot 'dist'
 $buildRoot = Join-Path $PSScriptRoot 'build'
 $exeName = 'AP1-Konfigurator-Portable'
 
-& $pythonExe -m PyInstaller --noconfirm --onefile --noconsole --name $exeName --distpath $distRoot --workpath $buildRoot (Join-Path $PSScriptRoot 'src\main.py')
+$pyInstallerArgs = @(
+    '-m', 'PyInstaller',
+    '--noconfirm',
+    '--onefile',
+    '--noconsole',
+    '--name', $exeName,
+    '--distpath', $distRoot,
+    '--workpath', $buildRoot,
+    '--add-data', ((Join-Path $PSScriptRoot 'AP1-Konfigurator.ps1') + ';.'),
+    '--add-data', ((Join-Path $PSScriptRoot 'AP1-Konfigurator.bat') + ';.'),
+    '--add-data', ((Join-Path $PSScriptRoot 'Proxy-Deaktivieren.bat') + ';.'),
+    '--add-data', ((Join-Path $PSScriptRoot 'Skript-Module') + ';Skript-Module'),
+    '--add-data', ((Join-Path $PSScriptRoot '1. Anpassen') + ';data/1. Anpassen'),
+    '--add-data', ((Join-Path $PSScriptRoot '2. Bei Bedarf anpassen') + ';data/2. Bei Bedarf anpassen'),
+    '--add-data', ((Join-Path $PSScriptRoot '3. Nuera-Dateien') + ';data/3. Nuera-Dateien'),
+    '--add-data', ((Join-Path $PSScriptRoot 'docs') + ';docs'),
+    (Join-Path $PSScriptRoot 'src\main.py')
+)
+
+& $pythonExe @pyInstallerArgs
 if ($LASTEXITCODE -ne 0) { throw 'PyInstaller fehlgeschlagen.' }
 
 & $pythonExe (Join-Path $PSScriptRoot 'src\post_build.py')

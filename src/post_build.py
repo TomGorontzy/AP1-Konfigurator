@@ -18,19 +18,19 @@ RELEASE_DIR = RELEASE_ROOT / f'{ARTIFACT_NAME}-{VERSION}'
 EXE_SOURCE = DIST_ROOT / f'{ARTIFACT_NAME}.exe'
 
 COPY_MAP = {
-    ROOT / 'AP1-Konfigurator.ps1': 'AP1-Konfigurator.ps1',
-    ROOT / 'AP1-Konfigurator.bat': 'AP1-Konfigurator.bat',
-    ROOT / 'Proxy-Deaktivieren.bat': 'Proxy-Deaktivieren.bat',
-    ROOT / 'README.md': 'README.md',
-    ROOT / f'RELEASE_NOTES_{VERSION}.md': f'RELEASE_NOTES_{VERSION}.md',
-    ROOT / 'Skript-Module': 'Skript-Module',
+    ROOT / 'README_PORTABLE.md': 'README.md',
     ROOT / '1. Anpassen': 'data/1. Anpassen',
     ROOT / '2. Bei Bedarf anpassen': 'data/2. Bei Bedarf anpassen',
     ROOT / '3. Nuera-Dateien': 'data/3. Nuera-Dateien',
     ROOT / 'docs': 'docs',
 }
 
-OBSOLETE_DATA_PATHS = (
+OBSOLETE_PACKAGE_PATHS = (
+    Path('AP1-Konfigurator.ps1'),
+    Path('AP1-Konfigurator.bat'),
+    Path('Proxy-Deaktivieren.bat'),
+    Path(f'RELEASE_NOTES_{VERSION}.md'),
+    Path('Skript-Module'),
     Path('data/AP1-Konfigurator.bat'),
     Path('data/AP1-Konfigurator.ps1'),
     Path('data/Proxy-Deaktivieren.bat'),
@@ -66,7 +66,7 @@ def try_remove_path(path: Path) -> None:
 
 
 def prune_obsolete_paths(package_root: Path) -> None:
-    for relative_path in OBSOLETE_DATA_PATHS:
+    for relative_path in OBSOLETE_PACKAGE_PATHS:
         try_remove_path(package_root / relative_path)
 
 
