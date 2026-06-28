@@ -73,6 +73,7 @@ AP1-Konfigurator/
 - Wird Word oder Excel per COM nicht verfügbar, wechselt das Skript automatisch in den Registry-Fallback.
 - Für einen stillen Proxy-Lauf ohne Rückfrage sollte `-Quiet` mitgegeben werden.
 - Die Laufzeit hängt stark davon ab, ob Office erstmals gestartet werden muss.
+- Releases sollen grundsätzlich über die **EXE-Variante** erfolgen (`AP1-Konfigurator-Portable`).
 
 ## Weiterführende Doku
 
@@ -80,5 +81,6 @@ AP1-Konfigurator/
 - Technische Details: [`docs/DOKUMENTATION_TECHNIK.md`](./docs/DOKUMENTATION_TECHNIK.md)
 - Kurzinfo: [`docs/KURZDOKUMENTATION.txt`](./docs/KURZDOKUMENTATION.txt)
 - Checkliste: [`docs/DOKUMENTATION_CHECKLISTE.md`](./docs/DOKUMENTATION_CHECKLISTE.md)
+- Release-Prozess: [`docs/RELEASE_PROZESS.md`](./docs/RELEASE_PROZESS.md)
 - Änderungen: [`CHANGELOG.md`](./CHANGELOG.md)
 - Release-Hinweise: [`RELEASE_NOTES_v1.0.11.md`](./RELEASE_NOTES_v1.0.11.md)

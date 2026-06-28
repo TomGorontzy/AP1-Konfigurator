@@ -27,8 +27,14 @@ Zentrale Aufgaben:
 
 ## Repository-Struktur
 
+- `build.ps1` – erstellt die Portable-EXE per PyInstaller und paketiert das Release-ZIP
+- `setup.ps1` – richtet die Python-Buildumgebung für die EXE-Erzeugung ein
+- `publish_release.ps1` – veröffentlicht die EXE-Variante auf GitHub
 - `AP1-Konfigurator.ps1` – Haupteinstieg und Orchestrierung
 - `AP1-Konfigurator.bat` – interaktiver Starter mit Proxy-Abfrage
+- `src/main.py` – minimaler EXE-Launcher, der das mitgelieferte Batch-/PowerShell-Skript startet
+- `src/post_build.py` – erstellt den versionierten Portable-Ordner und das ZIP-Artefakt
+- `.github/workflows/release.yml` – GitHub-Workflow für tagbasierte EXE-Releases
 - `Skript-Module/AP1-Logging.psm1` – Logging- und Konsolenausgabe
 - `Skript-Module/AP1-Office.psm1` – First-Run-Erkennung und Office-Initialisierung
 - `Skript-Module/AP1-Registry.psm1` – Registry-Helfer, COM-Bereinigung, Prüfungen
@@ -135,5 +141,6 @@ Unterstützte Parameter:
 - Aktueller veröffentlichter Stand im Repository: `v1.0.11`
 - Changelog: `CHANGELOG.md`
 - Release-Notizen: `RELEASE_NOTES_v1.0.11.md`
-- Der GitHub-Release wird über Tag + `gh release create` veröffentlicht.
-- Für konsistente Releases sollten Anwender-, Technik- und Kurzdokumentation vor dem Tagging aktualisiert werden.
+- Der GitHub-Release wird über die EXE-Variante `AP1-Konfigurator-Portable-vX.Y.Z.zip` veröffentlicht.
+- Das Skriptpaket ist nur ergänzend, nicht primäres Endanwender-Artefakt.
+- Für konsistente Releases sollten Anwender-, Technik-, Kurz- und Release-Prozess-Dokumentation vor dem Tagging aktualisiert werden.
