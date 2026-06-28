@@ -1,5 +1,18 @@
 # Changelog
 
+## v1.0.11 - 2026-06-28
+
+### Dokumentation
+
+- Die kanonische Projektdokumentation wurde analog zu den Schwesterprojekten nach `docs/` überführt.
+- Neue Standarddateien angelegt: `docs/DOKUMENTATION_ANWENDER.md`, `docs/DOKUMENTATION_TECHNIK.md`, `docs/KURZDOKUMENTATION.txt`, `docs/DOKUMENTATION_CHECKLISTE.md`.
+- Bestehende Einstiegspunkte `DOCUMENTATION.md` und `docs/Liesmich.txt` in Weiterleitungen auf die kanonischen Dateien umgewandelt.
+
+### Release
+
+- Aktueller lokaler und GitHub-Release auf `v1.0.11` angehoben.
+- Release-Unterlagen für das neue Paket ergänzt.
+
 ## v1.0.10 - 2026-06-28
 
 ### Behoben

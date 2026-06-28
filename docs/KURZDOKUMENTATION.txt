@@ -1,0 +1,37 @@
+Kurzdokumentation - AP1-Konfigurator
+
+Zweck
+Der AP1-Konfigurator richtet einen Prüfungsrechner für die AP1 standardisiert ein.
+Er übernimmt dabei Office-Einstellungen, Vorlagen, Kandidatenordner, Nuera-Dateien
+sowie optional Proxy- und Taskleisten-Einstellungen.
+
+Vorbereitung
+- Teilnehmerliste `1. Anpassen\AP1-TN.xlsx` prüfen
+- Word und Excel schließen
+- Internetverbindung für Nuera-Download sicherstellen
+
+Start
+- Empfohlen: `AP1-Konfigurator.bat`
+- Alternativ: `AP1-Konfigurator.ps1`
+
+Ergebnis
+- Nuera-Ordner liegt auf dem Desktop
+- Kandidatenordner liegt auf dem Desktop
+- Logdatei wurde unter `4. Logs` erstellt
+
+Wichtige Optionen
+- `-Proxy On|Off|Skip`
+- `-Quiet`
+- `-RegistryOnly`
+- `-ExcelListPath <Pfad>`
+- `-CsvFallbackPath <Pfad>`
+
+Fehlersuche
+- Wenn Excel nicht gelesen werden kann, Pfad prüfen oder CSV-Fallback verwenden.
+- Wenn Office nicht automatisch startet, Word/Excel einmal manuell öffnen.
+- Wenn keine Nuera-Dateien geladen werden, Internetverbindung und Erreichbarkeit prüfen.
+
+Ausführliche Dokumentation
+- `docs/DOKUMENTATION_ANWENDER.md`
+- `docs/DOKUMENTATION_TECHNIK.md`
+- `docs/DOKUMENTATION_CHECKLISTE.md`
