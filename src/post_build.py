@@ -18,19 +18,26 @@ RELEASE_DIR = RELEASE_ROOT / f'{ARTIFACT_NAME}-{VERSION}'
 EXE_SOURCE = DIST_ROOT / f'{ARTIFACT_NAME}.exe'
 
 COPY_MAP = {
-    ROOT / 'AP1-Konfigurator.ps1': 'data/AP1-Konfigurator.ps1',
-    ROOT / 'AP1-Konfigurator.bat': 'data/AP1-Konfigurator.bat',
-    ROOT / 'Proxy-Deaktivieren.bat': 'data/Proxy-Deaktivieren.bat',
+    ROOT / 'AP1-Konfigurator.ps1': 'AP1-Konfigurator.ps1',
+    ROOT / 'AP1-Konfigurator.bat': 'AP1-Konfigurator.bat',
+    ROOT / 'Proxy-Deaktivieren.bat': 'Proxy-Deaktivieren.bat',
     ROOT / 'README.md': 'README.md',
-    ROOT / 'CHANGELOG.md': 'data/CHANGELOG.md',
-    ROOT / 'DOCUMENTATION.md': 'data/DOCUMENTATION.md',
     ROOT / f'RELEASE_NOTES_{VERSION}.md': f'RELEASE_NOTES_{VERSION}.md',
-    ROOT / 'Skript-Module': 'data/Skript-Module',
+    ROOT / 'Skript-Module': 'Skript-Module',
     ROOT / '1. Anpassen': 'data/1. Anpassen',
     ROOT / '2. Bei Bedarf anpassen': 'data/2. Bei Bedarf anpassen',
     ROOT / '3. Nuera-Dateien': 'data/3. Nuera-Dateien',
     ROOT / 'docs': 'docs',
 }
+
+OBSOLETE_DATA_PATHS = (
+    Path('data/AP1-Konfigurator.bat'),
+    Path('data/AP1-Konfigurator.ps1'),
+    Path('data/Proxy-Deaktivieren.bat'),
+    Path('data/CHANGELOG.md'),
+    Path('data/DOCUMENTATION.md'),
+    Path('data/Skript-Module'),
+)
 
 
 def reset_dir(path: Path) -> None:
@@ -56,6 +63,11 @@ def try_remove_path(path: Path) -> None:
             path.unlink()
     except PermissionError as exc:
         print(f'warnung: veraltetes Artefakt {path} konnte nicht entfernt werden ({exc}).')
+
+
+def prune_obsolete_paths(package_root: Path) -> None:
+    for relative_path in OBSOLETE_DATA_PATHS:
+        try_remove_path(package_root / relative_path)
 
 
 def copy_item(source: Path, relative_target: str, package_dir: Path) -> None:
@@ -95,9 +107,11 @@ def main() -> int:
             shutil.copytree(staging_package_dir, PACKAGE_DIR, dirs_exist_ok=True)
         else:
             print(f'warnung: {PACKAGE_DIR} konnte nicht aktualisiert werden. Dist-Spiegelordner wird übersprungen.')
+        prune_obsolete_paths(PACKAGE_DIR)
 
         if release_dir_ready:
             shutil.copytree(staging_package_dir, RELEASE_DIR, dirs_exist_ok=True)
+        prune_obsolete_paths(RELEASE_DIR)
 
         archive_base = RELEASE_ROOT / f'{ARTIFACT_NAME}-{VERSION}'
         zip_path = shutil.make_archive(str(archive_base), 'zip', root_dir=staging_package_dir.parent, base_dir=staging_package_dir.name)

@@ -12,6 +12,19 @@ param(
 
 $script:AppVersion = '1.0.10'
 
+if ($PSScriptRoot) {
+  $script:BaseRoot = $PSScriptRoot
+} else {
+  $script:BaseRoot = (Get-Location).Path
+}
+
+$dataRootCandidate = Join-Path $script:BaseRoot 'data'
+if (Test-Path $dataRootCandidate) {
+  $script:DataRoot = $dataRootCandidate
+} else {
+  $script:DataRoot = $script:BaseRoot
+}
+
 ### --- Office-Version 16.0 für alle 2026 laufenden Versionen ---
 if (-not $script:OfficeVersion) { $script:OfficeVersion = '16.0' }
 
@@ -23,7 +36,10 @@ try {
 
 # --- Module laden (direkt am Anfang, damit alle Funktionen global verfügbar sind) ---
 try {
-  $modulePath = Join-Path $PSScriptRoot 'Skript-Module'
+  $modulePath = Join-Path $script:BaseRoot 'Skript-Module'
+  if (-not (Test-Path $modulePath)) {
+    $modulePath = Join-Path $script:DataRoot 'Skript-Module'
+  }
   Get-ChildItem -Path $modulePath -Filter '*.psm1' | ForEach-Object {
     Import-Module $_.FullName -Force
   }
@@ -207,11 +223,7 @@ function Set-ExcelAutoCorrectRegistry {
 # ===================================
 function Copy-QuickAccessToolbarFiles {
   if (-not $script:ScriptRoot) {
-    if ($PSScriptRoot) {
-      $script:ScriptRoot = $PSScriptRoot
-    } else {
-      $script:ScriptRoot = (Get-Location).Path
-    }
+    $script:ScriptRoot = $script:DataRoot
   }
   $sourcePath = Join-Path $script:ScriptRoot '2. Bei Bedarf anpassen\Symbolleiste Schnellzugriff'
   $targetPath = Join-Path $env:LOCALAPPDATA 'Microsoft\Office'
@@ -538,11 +550,7 @@ function Start-AP1Konfiguration {
 function Main {
     # ScriptRoot initialisieren (für Logging und Pfade)
     if (-not $script:ScriptRoot) {
-      if ($PSScriptRoot) {
-        $script:ScriptRoot = $PSScriptRoot
-      } else {
-        $script:ScriptRoot = (Get-Location).Path
-      }
+      $script:ScriptRoot = $script:DataRoot
     }
     $global:ScriptRoot = $script:ScriptRoot
     # Logging starten
