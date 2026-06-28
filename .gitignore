@@ -10,6 +10,10 @@ venv/
 build/
 dist/
 release/
+!release/
+release/*
+!release/RELEASE_NOTES_*.md
+!release/RELEASE_NOTES_TEMPLATE.md
 *.spec
 
 # IDE
