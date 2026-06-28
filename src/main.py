@@ -193,10 +193,10 @@ def prepare_app_dir(runtime_dir: Path) -> Path:
 
 def find_launcher(runtime_dir: Path) -> Path:
     candidates = [
-        runtime_dir / 'AP1-Konfigurator.bat',
         runtime_dir / 'AP1-Konfigurator.ps1',
-        runtime_dir / 'data' / 'AP1-Konfigurator.bat',
+        runtime_dir / 'AP1-Konfigurator.bat',
         runtime_dir / 'data' / 'AP1-Konfigurator.ps1',
+        runtime_dir / 'data' / 'AP1-Konfigurator.bat',
     ]
     for candidate in candidates:
         if candidate.exists():
