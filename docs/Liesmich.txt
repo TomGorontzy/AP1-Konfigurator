@@ -1,3 +1,28 @@
-# AP1-Konfigurator
+AP1-Konfigurator – Kurzinfo
+===========================
 
-*Noch in Planung.*
+Stand: v1.0.10 (28.06.2026)
+
+Der AP1-Konfigurator richtet einen Prüfungsrechner für die AP1 ein.
+
+Wichtige Startdateien:
+- AP1-Konfigurator.bat  -> interaktiver Start mit Proxy-Abfrage
+- AP1-Konfigurator.ps1  -> direkter Start per PowerShell
+
+Wichtige Parameter:
+- -Proxy On|Off|Skip
+- -Quiet
+- -RegistryOnly
+- -ExcelListPath <Pfad>
+- -CsvFallbackPath <Pfad>
+
+Standardverhalten:
+- Nuera-Dateien werden automatisch geprüft und bereitgestellt.
+- Die Teilnehmerliste wird standardmäßig unter
+	1. Anpassen\AP1-TN.xlsx gesucht.
+- Logdateien werden im Ordner 4. Logs gespeichert.
+
+Weitere Informationen:
+- README.md
+- DOCUMENTATION.md
+- CHANGELOG.md

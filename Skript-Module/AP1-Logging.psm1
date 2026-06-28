@@ -9,9 +9,12 @@ function Write-Info {
 	WriteHostSafe $Message
 }
 function Write-SafeOutput {
-	param([string]$Message)
-	# Keine direkte Konsolenausgabe mehr
-	# Funktion bleibt als Platzhalter erhalten
+	param(
+		[Parameter(Mandatory)][string]$Message,
+		[string]$ForegroundColor
+	)
+	WriteHostSafe -Message $Message -ForegroundColor $ForegroundColor
+	Write-Output $Message
 }
 
 function WriteHostSafe {

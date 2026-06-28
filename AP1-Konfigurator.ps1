@@ -1,11 +1,16 @@
 param(
+  [ValidateSet('On','Off','Skip')]
   [string]$Proxy = 'Skip',
-  [string]$ProxyServer = '',
-  [string]$ProxyBypass = '',
+  [string]$ProxyServer = '192.168.0.1:8080',
+  [string]$ProxyBypass = '*.office365.com; *.cloudappsecurity.com; *.onmicrosoft.com; *.office.net; *.office.com; *.microsoft.com; *.microsoftonline.com; *.live.com; *.azure.net; *.gfx.ms; *.onestore.ms; *.msecnd.net; *.outlookgroups.ms; *.linkedin.com; *.msocdn.com; *.live.net; ihk-aka.de',
   [string]$ExcelListPath = '',
   [string]$CsvFallbackPath = '',
-  [int]$MaxRows = 500
+  [int]$MaxRows = 500,
+  [switch]$Quiet,
+  [switch]$RegistryOnly
 )
+
+$script:AppVersion = '1.0.10'
 
 ### --- Office-Version 16.0 für alle 2026 laufenden Versionen ---
 if (-not $script:OfficeVersion) { $script:OfficeVersion = '16.0' }
@@ -14,7 +19,6 @@ if (-not $script:OfficeVersion) { $script:OfficeVersion = '16.0' }
 try {
   [Console]::OutputEncoding = [System.Text.Encoding]::UTF8
   $OutputEncoding = [System.Text.Encoding]::UTF8
-  Write-Info "[DEBUG] Konsolen-Encoding auf UTF-8 gesetzt."
 } catch {}
 
 # --- Module laden (direkt am Anfang, damit alle Funktionen global verfügbar sind) ---
@@ -27,10 +31,6 @@ try {
   Write-Host "[FEHLER] Modul konnte nicht geladen werden: $($_.Exception.Message)" -ForegroundColor Red
   exit 1
 }
-
-# Import QuickAccess-Modul
-Import-Module "$PSScriptRoot\Skript-Module\AP1-QuickAccess.psm1"
-
 
 # Setzt PersonalTemplates für Word immer auf den Desktop des aktuellen Benutzers
 try {
@@ -59,30 +59,6 @@ Add-DesktopToQuickAccess
 # ==================
 # Region: Hauptlauf
 # ==================
-
-### --- Encoding für Umlaute und Sonderzeichen setzen ---
-try {
-  [Console]::OutputEncoding = [System.Text.Encoding]::UTF8
-  $OutputEncoding = [System.Text.Encoding]::UTF8
-  Write-Info "[DEBUG] Konsolen-Encoding auf UTF-8 gesetzt."
-} catch {}
-
-# --- Module laden (direkt am Anfang, damit alle Funktionen global verfügbar sind) ---
-try {
-  $modulePath = Join-Path $PSScriptRoot 'Skript-Module'
-  Get-ChildItem -Path $modulePath -Filter '*.psm1' | ForEach-Object {
-    Import-Module $_.FullName -Force
-  }
-} catch {
-  Write-Host "[FEHLER] Modul konnte nicht geladen werden: $($_.Exception.Message)" -ForegroundColor Red
-  exit 1
-}
-
-
-
-
-
-
 
 # ==========================================
 
@@ -405,11 +381,22 @@ function Set-TaskbarSettings {
 
 
 function Start-AP1Konfiguration {
+    param(
+        [ValidateSet('On','Off','Skip')]
+        [string]$Proxy = 'Skip',
+        [string]$ProxyServer = '192.168.0.1:8080',
+        [string]$ProxyBypass = '*.office365.com; *.cloudappsecurity.com; *.onmicrosoft.com; *.office.net; *.office.com; *.microsoft.com; *.microsoftonline.com; *.live.com; *.azure.net; *.gfx.ms; *.onestore.ms; *.msecnd.net; *.outlookgroups.ms; *.linkedin.com; *.msocdn.com; *.live.net; ihk-aka.de',
+        [string]$ExcelListPath = '',
+        [string]$CsvFallbackPath = '',
+        [int]$MaxRows = 500,
+        [switch]$Quiet,
+        [switch]$RegistryOnly
+    )
+
     try {
-          Write-Info "[DEBUG] Start Hauptlauf"
+          Write-Info "[DEBUG] Start Hauptlauf (Version $script:AppVersion)"
           Write-SafeOutput "Dieses Skript richtet den Pruefungsrechner fuer die AP 1 ein." -ForegroundColor Yellow
         $desktopPath = Get-DesktopPath
-          Write-Info "[DEBUG] Verwendeter DesktopPath: $desktopPath"
           Write-Info "[DEBUG] DesktopPath: $desktopPath"
         # COM-Autodetektion
         $comOkWord = $false
@@ -423,14 +410,12 @@ function Start-AP1Konfiguration {
                 WriteWarn "COM-Start von Word/Excel fehlgeschlagen - wechsle in Registry-only-Modus."
                 $RegistryOnly = $true
             } else {
-                Write-Info "Registry-only-Modus wurde erzwungen."
+                Write-Info "COM fuer Word/Excel verfuegbar - normaler Modus bleibt aktiv."
             }
         }
         # Nuera-Datei laden (immer)
           Write-Info "[DEBUG] Starte Nuera-Download..."
-        Write-Info "Suche und lade neueste Nuera/Nuera..."
-        Write-Info "[DEBUG] Test: Main-Skript erreicht Get-LatestNueraFile (Write-Warning)"
-          Write-Info "[DEBUG] Test: Main-Skript erreicht Get-LatestNueraFile (Write-Host)"
+        Write-Info "Suche und lade neueste Nuera-Dateien..."
         $nueraDownloadPath = Join-Path $script:ScriptRoot '3. Nuera-Dateien'
         $nueraPath = $null
         $nueraZip = $null
@@ -501,7 +486,6 @@ function Start-AP1Konfiguration {
               Write-Info "[DEBUG] Pruefe Existenz der Excel-Datei: $ExcelListPath"
             if (-not (Test-Path $ExcelListPath)) {
                 Write-Info "[ERROR] Excel-Datei nicht gefunden: $ExcelListPath"
-              Write-Info "[ERROR] Excel-Datei nicht gefunden: $ExcelListPath"
               throw "Excel-Datei nicht gefunden: $ExcelListPath"
             }
             Write-Info "Erzeuge Kandidaten-Ordner aus Excel (COM)..."
@@ -560,6 +544,7 @@ function Main {
         $script:ScriptRoot = (Get-Location).Path
       }
     }
+    $global:ScriptRoot = $script:ScriptRoot
     # Logging starten
     Start-PrepTranscript
     # ====== Funktions-Selbsttest: Prüft, ob alle Kernfunktionen geladen sind ======
@@ -567,7 +552,17 @@ function Main {
       # Selftest entfernt: Module und Funktionen werden direkt genutzt
     }
     # Hauptlauf
-    Start-AP1Konfiguration @PSBoundParameters
+    $startParams = @{
+      Proxy           = $Proxy
+      ProxyServer     = $ProxyServer
+      ProxyBypass     = $ProxyBypass
+      ExcelListPath   = $ExcelListPath
+      CsvFallbackPath = $CsvFallbackPath
+      MaxRows         = $MaxRows
+      Quiet           = $Quiet
+      RegistryOnly    = $RegistryOnly
+    }
+    Start-AP1Konfiguration @startParams
 }
 
 Main
