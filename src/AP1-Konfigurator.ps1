@@ -457,10 +457,10 @@ function Start-AP1Konfiguration {
             $nueraZip = $latest.FileName
         }
         $nueraPath = Get-LatestNueraFile -DownloadPath $nueraDownloadPath
-        if ($nueraPath -and $nueraZip) {
+        if ($nueraPath) {
             Write-Info "[DEBUG] Kopiere Nuera-Ordner auf Desktop..."
             Write-Info "Kopiere Nuera-Ordner auf Desktop..."
-            $desktopResult = Copy-NueraToDesktop -NueraSourcePath $nueraPath -ZipFileName $nueraZip
+          $desktopResult = Copy-NueraToDesktop -NueraSourcePath $nueraPath
             if ($desktopResult) {
                 Write-Info "Nuera-Ordner erfolgreich auf Desktop kopiert: $desktopResult"
             } else {
