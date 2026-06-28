@@ -7,6 +7,32 @@ param(
 
 $ErrorActionPreference = 'Stop'
 
+function Invoke-GhCommand {
+    param(
+        [Parameter(Mandatory)]
+        [string[]]$CommandTokens
+    )
+
+    $commandLine = 'gh ' + (($CommandTokens | ForEach-Object {
+        if ($_ -match '[\s"]') { '"' + ($_ -replace '"', '\"') + '"' } else { $_ }
+    }) -join ' ')
+    & cmd.exe /c $commandLine
+    return $LASTEXITCODE
+}
+
+function Invoke-GitCommand {
+    param(
+        [Parameter(Mandatory)]
+        [string[]]$CommandTokens
+    )
+
+    $commandLine = 'git ' + (($CommandTokens | ForEach-Object {
+        if ($_ -match '[\s"]') { '"' + ($_ -replace '"', '\"') + '"' } else { $_ }
+    }) -join ' ')
+    & cmd.exe /c $commandLine
+    return $LASTEXITCODE
+}
+
 if ($BuildFirst) {
     & (Join-Path $PSScriptRoot 'build.ps1') -NoVersionBump
     if ($LASTEXITCODE -ne 0) {
@@ -28,33 +54,32 @@ $notes = Join-Path $PSScriptRoot ("RELEASE_NOTES_" + $Version + '.md')
 if (-not (Test-Path $asset)) { throw "Release-Asset fehlt: $asset" }
 if (-not (Test-Path $notes)) { throw "Release Notes fehlen: $notes" }
 
-$tagExists = (& git tag --list $Version)
+$tagExists = (& cmd.exe /c ('git tag --list ' + $Version))
 if (-not $tagExists) {
-    & git tag $Version
+    [void](Invoke-GitCommand -CommandTokens @('tag', $Version))
     if ($LASTEXITCODE -ne 0) { throw "Tag konnte nicht erstellt werden: $Version" }
-    & git push origin $Version
+    [void](Invoke-GitCommand -CommandTokens @('push', 'origin', $Version))
     if ($LASTEXITCODE -ne 0) { throw "Tag konnte nicht gepusht werden: $Version" }
 }
 
 $releaseExists = $false
-& gh release view $Version *> $null
-if ($LASTEXITCODE -eq 0) { $releaseExists = $true }
+if ((Invoke-GhCommand -CommandTokens @('release', 'view', $Version)) -eq 0) { $releaseExists = $true }
 
 if ($releaseExists) {
-    & gh release upload $Version $asset --clobber
-    & gh release edit $Version --notes-file $notes
+    [void](Invoke-GhCommand -CommandTokens @('release', 'upload', $Version, $asset, '--clobber'))
+    [void](Invoke-GhCommand -CommandTokens @('release', 'edit', $Version, '--notes-file', $notes))
 } else {
     if ($Draft -and $PreRelease) {
-        & gh release create $Version $asset --title $Version --notes-file $notes --draft --prerelease
+        [void](Invoke-GhCommand -CommandTokens @('release', 'create', $Version, $asset, '--title', $Version, '--notes-file', $notes, '--draft', '--prerelease'))
     }
     elseif ($Draft) {
-        & gh release create $Version $asset --title $Version --notes-file $notes --draft
+        [void](Invoke-GhCommand -CommandTokens @('release', 'create', $Version, $asset, '--title', $Version, '--notes-file', $notes, '--draft'))
     }
     elseif ($PreRelease) {
-        & gh release create $Version $asset --title $Version --notes-file $notes --prerelease
+        [void](Invoke-GhCommand -CommandTokens @('release', 'create', $Version, $asset, '--title', $Version, '--notes-file', $notes, '--prerelease'))
     }
     else {
-        & gh release create $Version $asset --title $Version --notes-file $notes
+        [void](Invoke-GhCommand -CommandTokens @('release', 'create', $Version, $asset, '--title', $Version, '--notes-file', $notes))
     }
 }
 

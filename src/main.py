@@ -1,22 +1,16 @@
 from __future__ import annotations
 
 import ctypes
+import importlib.util
 import os
 import shutil
 import subprocess
 import sys
 from pathlib import Path
 
-try:
-    from build_info import BUILD_INFO
-except ModuleNotFoundError:
-    from .build_info import BUILD_INFO
-
 CREATE_NEW_CONSOLE = 0x00000010
 MB_ICONERROR = 0x00000010
 MB_OK = 0x00000000
-ARTIFACT_NAME = BUILD_INFO['artifact_name']
-VERSION = f"v{BUILD_INFO['version']}"
 EMBEDDED_FILES = (
     'AP1-Konfigurator.ps1',
     'AP1-Konfigurator.bat',
@@ -44,6 +38,34 @@ def resolve_runtime_dir() -> Path:
     if getattr(sys, 'frozen', False):
         return Path(sys.executable).resolve().parent
     return Path(__file__).resolve().parents[1]
+
+
+def resolve_source_dir() -> Path:
+    return Path(__file__).resolve().parent
+
+
+def load_build_info() -> dict[str, str]:
+    candidates = []
+    if getattr(sys, 'frozen', False) and hasattr(sys, '_MEIPASS'):
+        candidates.append(Path(getattr(sys, '_MEIPASS')) / 'build_info.py')
+    candidates.append(resolve_source_dir() / 'build_info.py')
+    candidates.append(resolve_runtime_dir() / 'src' / 'build_info.py')
+
+    for candidate in candidates:
+        if not candidate.exists():
+            continue
+        spec = importlib.util.spec_from_file_location('ap1_build_info', candidate)
+        if spec and spec.loader:
+            module = importlib.util.module_from_spec(spec)
+            spec.loader.exec_module(module)
+            return module.BUILD_INFO
+
+    raise ModuleNotFoundError('build_info.py konnte weder als Datei noch im Bundle geladen werden.')
+
+
+BUILD_INFO = load_build_info()
+ARTIFACT_NAME = BUILD_INFO['artifact_name']
+VERSION = f"v{BUILD_INFO['version']}"
 
 
 def resolve_bundle_dir() -> Path:

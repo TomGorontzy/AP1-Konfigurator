@@ -62,6 +62,7 @@ $pyInstallerArgs = @(
     '--add-data', ((Join-Path $PSScriptRoot 'AP1-Konfigurator.ps1') + ';.'),
     '--add-data', ((Join-Path $PSScriptRoot 'AP1-Konfigurator.bat') + ';.'),
     '--add-data', ((Join-Path $PSScriptRoot 'Proxy-Deaktivieren.bat') + ';.'),
+    '--add-data', ((Join-Path $PSScriptRoot 'src\build_info.py') + ';.'),
     '--add-data', ((Join-Path $PSScriptRoot 'Skript-Module') + ';Skript-Module'),
     '--add-data', ((Join-Path $PSScriptRoot '1. Anpassen') + ';data/1. Anpassen'),
     '--add-data', ((Join-Path $PSScriptRoot '2. Bei Bedarf anpassen') + ';data/2. Bei Bedarf anpassen'),
