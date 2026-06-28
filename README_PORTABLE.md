@@ -18,10 +18,12 @@ Dieses Paket enthält bewusst nur:
 3. Zusätzlich wird `%LOCALAPPDATA%\AP1-Konfigurator-Portable\current` als aktuelle Arbeitskopie aktualisiert.
 4. Die EXE verwendet anschließend bevorzugt diese `current`-Arbeitskopie.
 5. `data/` und `docs/` aus diesem Release werden ebenfalls dorthin synchronisiert.
+6. Ältere `%LOCALAPPDATA%\AP1-Konfigurator-Portable\v*`-Ordner werden dabei automatisch bereinigt.
 
 ## Hinweise
 
 - Die technischen PowerShell-Startdateien und `Skript-Module` sind **in der EXE eingebettet** und liegen nicht separat im Release.
 - Änderungen an `data/` im Release-Verzeichnis werden beim nächsten Start erneut in die lokale Arbeitskopie übernommen.
 - Für Bereinigung oder Diagnose können sowohl der versionsbezogene Ordner als auch `%LOCALAPPDATA%\AP1-Konfigurator-Portable\current` geprüft werden.
+- Ältere versionierte Arbeitsordner werden beim Start automatisch entfernt, sofern sie nicht mehr der aktuellen Version entsprechen.
 - Weiterführende Informationen liegen unter `docs/`.

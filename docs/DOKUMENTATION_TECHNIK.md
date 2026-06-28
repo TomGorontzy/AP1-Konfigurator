@@ -88,16 +88,17 @@ Unterstützte Parameter:
 1. Die EXE synchronisiert eingebettete Laufzeitdateien nach `%LOCALAPPDATA%\AP1-Konfigurator-Portable\vX.Y.Z`
 2. Die EXE synchronisiert `data/` und `docs/` aus dem Release-Verzeichnis in denselben lokalen Versionsordner
 3. Die EXE aktualisiert zusätzlich `%LOCALAPPDATA%\AP1-Konfigurator-Portable\current` als aktuelle Arbeitskopie
-4. Modulimport aus `Skript-Module`
-5. Setzen des Word-Templatepfads auf den Desktop des aktuellen Benutzers
-6. Anheften des Desktops an den Schnellzugriff
-7. Start des Transcript-Loggings in `4. Logs`
-8. Prüfung der COM-Verfügbarkeit von Word und Excel
-9. Bereitstellung der aktuellen Nuera-Dateien
-10. Office-/Explorer-Konfiguration via Registry und optional COM
-11. Kopieren von Vorlagen und Schnellzugriff-Dateien
-12. Erzeugung der Kandidatenordner aus Excel oder CSV
-13. Anwenden von Taskleisten- und Proxy-Einstellungen
+4. Die EXE entfernt ältere `%LOCALAPPDATA%\AP1-Konfigurator-Portable\v*`-Ordner automatisch
+5. Modulimport aus `Skript-Module`
+6. Setzen des Word-Templatepfads auf den Desktop des aktuellen Benutzers
+7. Anheften des Desktops an den Schnellzugriff
+8. Start des Transcript-Loggings in `4. Logs`
+9. Prüfung der COM-Verfügbarkeit von Word und Excel
+10. Bereitstellung der aktuellen Nuera-Dateien
+11. Office-/Explorer-Konfiguration via Registry und optional COM
+12. Kopieren von Vorlagen und Schnellzugriff-Dateien
+13. Erzeugung der Kandidatenordner aus Excel oder CSV
+14. Anwenden von Taskleisten- und Proxy-Einstellungen
 
 ## Besondere Laufzeitlogik
 
@@ -130,6 +131,7 @@ Unterstützte Parameter:
 - Sie sind in der EXE eingebettet und werden beim Start nach `%LOCALAPPDATA%\AP1-Konfigurator-Portable\vX.Y.Z` kopiert.
 - `data/` und `docs/` aus dem Release-Verzeichnis werden ebenfalls in dieses lokale Arbeitsverzeichnis synchronisiert.
 - Zusätzlich wird `%LOCALAPPDATA%\AP1-Konfigurator-Portable\current` als aktuelle Arbeitskopie gepflegt und bevorzugt gestartet.
+- Ältere versionierte Unterordner `v*` werden beim Start automatisch entfernt, sofern sie nicht der aktuell laufenden Version entsprechen.
 - Das veröffentlichte EXE-Release enthält daher nur `AP1-Konfigurator-Portable.exe`, `data/`, `docs/` und `README.md`.
 
 ## Logging

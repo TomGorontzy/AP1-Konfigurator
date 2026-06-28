@@ -73,5 +73,6 @@ Der Workflow `.github/workflows/release.yml` baut bei Tag-Pushes `v*` automatisc
 
 - Der aktuelle EXE-Launcher enthält die PowerShell-Startskripte und Module eingebettet.
 - Beim Start werden die eingebetteten Laufzeitdateien nach `%LOCALAPPDATA%\AP1-Konfigurator-Portable\vX.Y.Z` kopiert; zusätzlich wird `%LOCALAPPDATA%\AP1-Konfigurator-Portable\current` als aktuelle Arbeitskopie aktualisiert.
+- Ältere `%LOCALAPPDATA%\AP1-Konfigurator-Portable\v*`-Ordner werden beim Start automatisch bereinigt.
 - Die EXE dient als bevorzugte Endanwender-Startvariante.
 - Das Release-Paket selbst bleibt schlank und enthält nur `AP1-Konfigurator-Portable.exe`, `data/`, `docs/` und `README.md`.

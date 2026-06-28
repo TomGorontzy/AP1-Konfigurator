@@ -75,6 +75,7 @@ AP1-Konfigurator/
 - Die Laufzeit hängt stark davon ab, ob Office erstmals gestartet werden muss.
 - Releases sollen grundsätzlich über die **EXE-Variante** erfolgen (`AP1-Konfigurator-Portable`).
 - Die EXE entpackt bzw. synchronisiert ihre eingebetteten Laufzeitdateien beim Start nach `%LOCALAPPDATA%\AP1-Konfigurator-Portable\vX.Y.Z` und pflegt zusätzlich `%LOCALAPPDATA%\AP1-Konfigurator-Portable\current` als aktuelle Arbeitskopie.
+- Ältere `%LOCALAPPDATA%\AP1-Konfigurator-Portable\v*`-Ordner werden beim Start automatisch bereinigt, damit kein veralteter Versionsballast liegen bleibt.
 
 ## EXE-Release-Struktur
 

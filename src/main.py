@@ -109,6 +109,22 @@ def reset_dir(path: Path) -> None:
     path.mkdir(parents=True, exist_ok=True)
 
 
+def prune_old_version_dirs(root_dir: Path, current_version: str) -> None:
+    if not root_dir.exists():
+        return
+    for child in root_dir.iterdir():
+        if not child.is_dir():
+            continue
+        if child.name == 'current' or child.name == current_version:
+            continue
+        if not child.name.startswith('v'):
+            continue
+        try:
+            shutil.rmtree(child)
+        except PermissionError:
+            continue
+
+
 def prepare_current_alias(source_dir: Path) -> Path:
     current_dir = resolve_current_app_dir()
     try:
@@ -121,11 +137,13 @@ def prepare_current_alias(source_dir: Path) -> Path:
 
 def prepare_app_dir(runtime_dir: Path) -> Path:
     bundle_dir = resolve_bundle_dir()
+    root_dir = resolve_local_appdata_root()
     app_dir = resolve_local_appdata_dir()
     app_dir.mkdir(parents=True, exist_ok=True)
     sync_embedded_runtime(bundle_dir, app_dir)
     sync_release_content(runtime_dir, app_dir)
     (app_dir / 'data' / '4. Logs').mkdir(parents=True, exist_ok=True)
+    prune_old_version_dirs(root_dir, VERSION)
     return prepare_current_alias(app_dir)
 
 
