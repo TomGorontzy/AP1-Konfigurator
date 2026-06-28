@@ -1,5 +1,7 @@
 # DOKUMENTATION ANWENDER
 
+Aktueller Stand: **v1.0.14** · Letzte Aktualisierung: **28. Juni 2026**
+
 ## Inhaltsverzeichnis
 
 - [Zweck](#zweck)

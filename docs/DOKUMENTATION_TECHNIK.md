@@ -1,5 +1,7 @@
 # DOKUMENTATION TECHNIK
 
+Aktueller Stand: **v1.0.14** · Letzte Aktualisierung: **28. Juni 2026**
+
 ## Inhaltsverzeichnis
 
 - [Projektüberblick](#projektüberblick)
@@ -152,9 +154,9 @@ Unterstützte Parameter:
 
 ## Release- und GitHub-Hinweise
 
-- Aktueller veröffentlichter Stand im Repository: `v1.0.12`
+- Aktueller veröffentlichter Stand im Repository: `v1.0.14`
 - Changelog: `docs/CHANGELOG.md`
-- Release-Notizen: `release/RELEASE_NOTES_v1.0.12.md`
+- Release-Notizen: `release/RELEASE_NOTES_v1.0.14.md`
 - Der GitHub-Release wird über die EXE-Variante `AP1-Konfigurator-Portable-vX.Y.Z.zip` veröffentlicht.
 - Das EXE-Release enthält nur `AP1-Konfigurator-Portable.exe`, `data/`, `docs/` und `README.md`.
 - Für konsistente Releases sollten Anwender-, Technik-, Kurz- und Release-Prozess-Dokumentation vor dem Tagging aktualisiert werden.

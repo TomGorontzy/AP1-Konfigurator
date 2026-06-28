@@ -1,5 +1,18 @@
 # Changelog
 
+## v1.0.14 - 2026-06-28
+
+### Dokumentation und Release
+
+- README, Anwender-, Technik- und Release-Prozess-Dokumentation auf `v1.0.14` aktualisiert.
+- Neue Release-Notes-Vorlage `release/RELEASE_NOTES_TEMPLATE.md` ergänzt.
+- Release-Notizen orientieren sich künftig am strukturierten Muster von `release/RELEASE_NOTES_v1.0.10.md`.
+- Obsolete Weiterleitungsdatei `docs/Liesmich.txt` entfernt.
+
+### Versionsstand
+
+- Versionsquelle in `src/build_info.py` auf `1.0.14` angehoben.
+
 ## v1.0.11 - 2026-06-28
 
 ### Dokumentation

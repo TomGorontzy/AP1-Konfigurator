@@ -16,7 +16,7 @@ Die Build-Pipeline liest die Version aus:
 
 Beispiel:
 
-- `1.0.11` → Release-Tag `v1.0.11`
+- `1.0.14` → Release-Tag `v1.0.14`
 
 ## Release-Checkliste
 
@@ -28,6 +28,13 @@ Beispiel:
    - `docs/DOKUMENTATION_CHECKLISTE.md`
 2. Release-Hinweise prüfen oder anlegen:
    - `release/RELEASE_NOTES_vX.Y.Z.md`
+   - Für neue Dateien die Vorlage `release/RELEASE_NOTES_TEMPLATE.md` verwenden.
+   - Inhaltlich an der Struktur von `release/RELEASE_NOTES_v1.0.10.md` orientieren:
+     - `## Highlights`
+     - `## Änderungen im Detail`
+     - `## Validierung`
+     - `## Artefakte` / `## Artefakte und GitHub-Hinweis`
+   - Änderungen nicht nur als knappe Stichworte notieren, sondern nachvollziehbar in Funktionsblöcke und Dokumentation gliedern.
 3. Python-Buildumgebung einrichten:
    - `./src/setup.ps1`
 4. EXE-Build ausführen:
