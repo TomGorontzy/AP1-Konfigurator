@@ -3,6 +3,7 @@ from __future__ import annotations
 import shutil
 import sys
 import tempfile
+import zipfile
 from pathlib import Path
 
 from build_info import BUILD_INFO
@@ -79,6 +80,22 @@ def copy_item(source: Path, relative_target: str, package_dir: Path) -> None:
         shutil.copy2(source, target)
 
 
+def create_zip_archive(source_dir: Path, zip_path: Path) -> Path:
+    if zip_path.exists():
+        zip_path.unlink()
+
+    with zipfile.ZipFile(zip_path, 'w', compression=zipfile.ZIP_DEFLATED) as archive:
+        for path in sorted(source_dir.rglob('*')):
+            relative_path = path.relative_to(source_dir)
+            archive_name = relative_path.as_posix()
+            if path.is_dir():
+                archive.writestr(f'{archive_name}/', '')
+            else:
+                archive.write(path, archive_name)
+
+    return zip_path
+
+
 def main() -> int:
     if not EXE_SOURCE.exists():
         raise FileNotFoundError(f'PyInstaller-Ausgabe fehlt: {EXE_SOURCE}')
@@ -113,8 +130,7 @@ def main() -> int:
             shutil.copytree(staging_package_dir, RELEASE_DIR, dirs_exist_ok=True)
         prune_obsolete_paths(RELEASE_DIR)
 
-        archive_base = RELEASE_ROOT / f'{ARTIFACT_NAME}-{VERSION}'
-        zip_path = shutil.make_archive(str(archive_base), 'zip', root_dir=staging_package_dir.parent, base_dir=staging_package_dir.name)
+        zip_path = create_zip_archive(staging_package_dir, RELEASE_ROOT / f'{ARTIFACT_NAME}-{VERSION}.zip')
 
     print(f'paketiert: {zip_path}')
     return 0
