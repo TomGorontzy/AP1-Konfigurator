@@ -1,7 +1,7 @@
 
 # AP1-Konfigurator
 
-Aktueller Stand: **v1.0.11** · Letzte Aktualisierung: **28. Juni 2026**
+Aktueller Stand: **v1.0.12** · Letzte Aktualisierung: **28. Juni 2026**
 
 Der `AP1-Konfigurator` automatisiert die Einrichtung von Prüfungsrechnern für die Abschlussprüfung Teil 1 (AP1). Das PowerShell-Skript richtet Office, Explorer, Schnellzugriff, Proxy-Einstellungen, Kandidatenordner und die Nuera-Dateien in einer reproduzierbaren Reihenfolge ein.
 
@@ -96,4 +96,4 @@ Die PowerShell-Startskripte und `Skript-Module` werden nicht separat mit ausgeli
 - Checkliste: [`docs/DOKUMENTATION_CHECKLISTE.md`](./docs/DOKUMENTATION_CHECKLISTE.md)
 - Release-Prozess: [`docs/RELEASE_PROZESS.md`](./docs/RELEASE_PROZESS.md)
 - Änderungen: [`CHANGELOG.md`](./CHANGELOG.md)
-- Release-Hinweise: [`RELEASE_NOTES_v1.0.11.md`](./RELEASE_NOTES_v1.0.11.md)
+- Release-Hinweise: [`RELEASE_NOTES_v1.0.12.md`](./RELEASE_NOTES_v1.0.12.md)

@@ -50,6 +50,7 @@ if ($LASTEXITCODE -ne 0) { throw 'Markdown-Normalisierung fehlgeschlagen.' }
 $distRoot = Join-Path $PSScriptRoot 'dist'
 $buildRoot = Join-Path $PSScriptRoot 'build'
 $exeName = 'AP1-Konfigurator-Portable'
+$iconPath = Join-Path $PSScriptRoot 'src\app_icon.ico'
 
 $pyInstallerArgs = @(
     '-m', 'PyInstaller',
@@ -57,11 +58,13 @@ $pyInstallerArgs = @(
     '--onefile',
     '--noconsole',
     '--name', $exeName,
+    '--icon', $iconPath,
     '--distpath', $distRoot,
     '--workpath', $buildRoot,
     '--add-data', ((Join-Path $PSScriptRoot 'AP1-Konfigurator.ps1') + ';.'),
     '--add-data', ((Join-Path $PSScriptRoot 'AP1-Konfigurator.bat') + ';.'),
     '--add-data', ((Join-Path $PSScriptRoot 'Proxy-Deaktivieren.bat') + ';.'),
+    '--add-data', ($iconPath + ';.'),
     '--add-data', ((Join-Path $PSScriptRoot 'src\build_info.py') + ';.'),
     '--add-data', ((Join-Path $PSScriptRoot 'Skript-Module') + ';Skript-Module'),
     '--add-data', ((Join-Path $PSScriptRoot '1. Anpassen') + ';data/1. Anpassen'),
