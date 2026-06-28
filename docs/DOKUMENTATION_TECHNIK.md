@@ -133,6 +133,7 @@ Unterstützte Parameter:
 - Zusätzlich wird `%LOCALAPPDATA%\AP1-Konfigurator-Portable\current` als aktuelle Arbeitskopie gepflegt und bevorzugt gestartet.
 - Ältere versionierte Unterordner `v*` werden beim Start automatisch entfernt, sofern sie nicht der aktuell laufenden Version entsprechen.
 - Das veröffentlichte EXE-Release enthält daher nur `AP1-Konfigurator-Portable.exe`, `data/`, `docs/` und `README.md`.
+- Die erzeugte ZIP-Datei ist flach und enthält keinen Sammelordner als oberste Ebene.
 
 ## Logging
 

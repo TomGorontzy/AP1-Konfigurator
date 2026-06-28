@@ -38,6 +38,7 @@ Beispiel:
    - `release/AP1-Konfigurator-Portable-vX.Y.Z/`
    - `release/AP1-Konfigurator-Portable-vX.Y.Z.zip`
    - Im Release-Ordner befinden sich nur `AP1-Konfigurator-Portable.exe`, `data/`, `docs/` und `README.md`
+   - Die ZIP-Datei ist flach und enthält keinen zusätzlichen Oberordner
 6. Veröffentlichung ausführen:
    - `./publish_release.ps1 -Version vX.Y.Z`
 7. GitHub prüfen:
@@ -76,3 +77,4 @@ Der Workflow `.github/workflows/release.yml` baut bei Tag-Pushes `v*` automatisc
 - Ältere `%LOCALAPPDATA%\AP1-Konfigurator-Portable\v*`-Ordner werden beim Start automatisch bereinigt.
 - Die EXE dient als bevorzugte Endanwender-Startvariante.
 - Das Release-Paket selbst bleibt schlank und enthält nur `AP1-Konfigurator-Portable.exe`, `data/`, `docs/` und `README.md`.
+- Das ZIP ist flach aufgebaut und hat keinen zusätzlichen Oberordner.

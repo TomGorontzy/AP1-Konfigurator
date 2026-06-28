@@ -11,6 +11,8 @@ Dieses Paket enthält bewusst nur:
 - `docs/`
 - `README.md`
 
+Die ZIP-Datei ist **flach** aufgebaut und enthält keinen zusätzlichen Oberordner.
+
 ## Start
 
 1. `AP1-Konfigurator-Portable.exe` starten.
@@ -26,4 +28,5 @@ Dieses Paket enthält bewusst nur:
 - Änderungen an `data/` im Release-Verzeichnis werden beim nächsten Start erneut in die lokale Arbeitskopie übernommen.
 - Für Bereinigung oder Diagnose können sowohl der versionsbezogene Ordner als auch `%LOCALAPPDATA%\AP1-Konfigurator-Portable\current` geprüft werden.
 - Ältere versionierte Arbeitsordner werden beim Start automatisch entfernt, sofern sie nicht mehr der aktuellen Version entsprechen.
+- Das Release-ZIP beginnt direkt mit `AP1-Konfigurator-Portable.exe`, `data/`, `docs/` und `README.md`.
 - Weiterführende Informationen liegen unter `docs/`.
