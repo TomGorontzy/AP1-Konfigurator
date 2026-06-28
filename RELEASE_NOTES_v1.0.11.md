@@ -1,4 +1,4 @@
-# AP1-Konfigurator v1.0.11
+# AP1-Konfigurator-Portable v1.0.11
 
 ## Highlights
 
@@ -23,7 +23,7 @@
 
 - Versionsstand auf `v1.0.11` angehoben.
 - Release-Unterlagen für den aktuellen Stand ergänzt.
-- Lokales Release-Paket und GitHub-Release werden für denselben Versionsstand bereitgestellt.
+- Das primäre lokale Release-Paket und der GitHub-Release werden als EXE-Variante für denselben Versionsstand bereitgestellt.
 
 ## Validierung
 
@@ -34,4 +34,4 @@
 
 - Git-Tag: `v1.0.11`
 - GitHub-Release: `v1.0.11`
-- lokales Release-ZIP: `release/AP1-Konfigurator-v1.0.11.zip`
+- lokales Release-ZIP: `release/AP1-Konfigurator-Portable-v1.0.11.zip`
