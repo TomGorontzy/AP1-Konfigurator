@@ -15,7 +15,7 @@ import zipfile
 from tkinter import messagebox, ttk
 from pathlib import Path
 
-CREATE_NEW_CONSOLE = 0x00000010
+CREATE_NO_WINDOW = 0x08000000
 MB_ICONERROR = 0x00000010
 MB_OK = 0x00000000
 EMBEDDED_FILES = (
@@ -545,7 +545,7 @@ class AP1ConfiguratorGUI(tk.Tk):
             launcher = find_launcher(self.app_dir)
             mode = self.proxy_mode.get() or 'Skip'
             command = build_command_with_args(launcher, ['-Proxy', mode, '-Quiet'])
-            subprocess.Popen(command, cwd=str(self.app_dir), creationflags=CREATE_NEW_CONSOLE)
+            subprocess.Popen(command, cwd=str(self.app_dir), creationflags=CREATE_NO_WINDOW)
             self.set_status(f'AP1-Konfiguration gestartet ({mode}).')
         except Exception as exc:
             messagebox.showerror('AP1-Konfigurator', str(exc), parent=self)
